@@ -2,6 +2,7 @@ import connexion
 import six
 
 from swagger_server.models.authorization_request import AuthorizationRequest  # noqa: E501
+from swagger_server.extensions.authorization_extensions import AuthorizationExtensions
 from swagger_server import util
 
 
@@ -17,4 +18,9 @@ def authorize(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = AuthorizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
+
+    ae = AuthorizationExtensions()
+    ae.check_token(body.identity_token)
+
+
     return 'do some magic!'
