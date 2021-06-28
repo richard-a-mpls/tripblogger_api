@@ -20,7 +20,6 @@ def authorize(body):  # noqa: E501
         body = AuthorizationRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     ae = AuthorizationExtensions()
-    ae.check_token(body.identity_token)
+    api_token = ae.process_authentication("fb", body.identity_token)
 
-
-    return 'do some magic!'
+    return {"api_token": api_token}
