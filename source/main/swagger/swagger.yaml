@@ -88,11 +88,15 @@ components:
     ApiSession:
       type: object
       properties:
+        identity_token:
+          type: "string"
+        identity_issuer:
+          type: "string"
         api_token:
           type: "string"
-        valid_until:
+        api_token_expiration:
           type: "integer"
-        local_uuid:
+        user_profile:
           type: "string"
   securitySchemes:
     BearerAuth:

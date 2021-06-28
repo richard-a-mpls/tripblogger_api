@@ -2,6 +2,7 @@
 import requests
 import os
 import time
+import uuid
 from swagger_server.extensions.mongo_interface import MongoInterface
 
 class AuthorizationExtensions:
@@ -21,21 +22,25 @@ class AuthorizationExtensions:
         api_session = m_interface.find_token_session(token, graph_domain)
         if api_session is not None:
             print ("Api session found, let's return it" + str(api_session))
-            return str(api_session["_id"])
+            return str(api_session["api_token"])
 
         print ("Api session not found, let's create one based on user details")
         user_details_json = self.get_user_details(check_token_response['user_id'], token)
 
         # TODO need to auto create profile if one isn't already in, and associate to session
-        session_json = {"identity_token": token, "identity_issuer": graph_domain,
+        session_json = {"identity_token": token,
+                        "identity_issuer": graph_domain,
+                        "api_token": uuid.uuid4(),
+                        "api_token_expiration": int(time.time())*100000,
                         "profile": {
                             "user_id": user_details_json["id"],
                             "name": user_details_json["name"],
                             "email": user_details_json["email"]
                         }}
+
         inserted_id = m_interface.create_session(session_json)
-        print ("created new api session with id: " + str(inserted_id))
-        return str(inserted_id)
+        print ("created new api session with id: " + str(inserted_id) + " api_token of " + str(session_json["api_token"]))
+        return str(session_json["api_token"])
 
     def check_token(self, token):
         response = requests.get(self.get_fb_token_url(token));

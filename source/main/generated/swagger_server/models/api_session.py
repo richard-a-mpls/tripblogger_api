@@ -14,30 +14,40 @@ class ApiSession(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, api_token: str=None, valid_until: int=None, local_uuid: str=None):  # noqa: E501
+    def __init__(self, identity_token: str=None, identity_issuer: str=None, api_token: str=None, api_token_expiration: int=None, user_profile: str=None):  # noqa: E501
         """ApiSession - a model defined in Swagger
 
+        :param identity_token: The identity_token of this ApiSession.  # noqa: E501
+        :type identity_token: str
+        :param identity_issuer: The identity_issuer of this ApiSession.  # noqa: E501
+        :type identity_issuer: str
         :param api_token: The api_token of this ApiSession.  # noqa: E501
         :type api_token: str
-        :param valid_until: The valid_until of this ApiSession.  # noqa: E501
-        :type valid_until: int
-        :param local_uuid: The local_uuid of this ApiSession.  # noqa: E501
-        :type local_uuid: str
+        :param api_token_expiration: The api_token_expiration of this ApiSession.  # noqa: E501
+        :type api_token_expiration: int
+        :param user_profile: The user_profile of this ApiSession.  # noqa: E501
+        :type user_profile: str
         """
         self.swagger_types = {
+            'identity_token': str,
+            'identity_issuer': str,
             'api_token': str,
-            'valid_until': int,
-            'local_uuid': str
+            'api_token_expiration': int,
+            'user_profile': str
         }
 
         self.attribute_map = {
+            'identity_token': 'identity_token',
+            'identity_issuer': 'identity_issuer',
             'api_token': 'api_token',
-            'valid_until': 'valid_until',
-            'local_uuid': 'local_uuid'
+            'api_token_expiration': 'api_token_expiration',
+            'user_profile': 'user_profile'
         }
+        self._identity_token = identity_token
+        self._identity_issuer = identity_issuer
         self._api_token = api_token
-        self._valid_until = valid_until
-        self._local_uuid = local_uuid
+        self._api_token_expiration = api_token_expiration
+        self._user_profile = user_profile
 
     @classmethod
     def from_dict(cls, dikt) -> 'ApiSession':
@@ -49,6 +59,48 @@ class ApiSession(Model):
         :rtype: ApiSession
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def identity_token(self) -> str:
+        """Gets the identity_token of this ApiSession.
+
+
+        :return: The identity_token of this ApiSession.
+        :rtype: str
+        """
+        return self._identity_token
+
+    @identity_token.setter
+    def identity_token(self, identity_token: str):
+        """Sets the identity_token of this ApiSession.
+
+
+        :param identity_token: The identity_token of this ApiSession.
+        :type identity_token: str
+        """
+
+        self._identity_token = identity_token
+
+    @property
+    def identity_issuer(self) -> str:
+        """Gets the identity_issuer of this ApiSession.
+
+
+        :return: The identity_issuer of this ApiSession.
+        :rtype: str
+        """
+        return self._identity_issuer
+
+    @identity_issuer.setter
+    def identity_issuer(self, identity_issuer: str):
+        """Sets the identity_issuer of this ApiSession.
+
+
+        :param identity_issuer: The identity_issuer of this ApiSession.
+        :type identity_issuer: str
+        """
+
+        self._identity_issuer = identity_issuer
 
     @property
     def api_token(self) -> str:
@@ -72,43 +124,43 @@ class ApiSession(Model):
         self._api_token = api_token
 
     @property
-    def valid_until(self) -> int:
-        """Gets the valid_until of this ApiSession.
+    def api_token_expiration(self) -> int:
+        """Gets the api_token_expiration of this ApiSession.
 
 
-        :return: The valid_until of this ApiSession.
+        :return: The api_token_expiration of this ApiSession.
         :rtype: int
         """
-        return self._valid_until
+        return self._api_token_expiration
 
-    @valid_until.setter
-    def valid_until(self, valid_until: int):
-        """Sets the valid_until of this ApiSession.
+    @api_token_expiration.setter
+    def api_token_expiration(self, api_token_expiration: int):
+        """Sets the api_token_expiration of this ApiSession.
 
 
-        :param valid_until: The valid_until of this ApiSession.
-        :type valid_until: int
+        :param api_token_expiration: The api_token_expiration of this ApiSession.
+        :type api_token_expiration: int
         """
 
-        self._valid_until = valid_until
+        self._api_token_expiration = api_token_expiration
 
     @property
-    def local_uuid(self) -> str:
-        """Gets the local_uuid of this ApiSession.
+    def user_profile(self) -> str:
+        """Gets the user_profile of this ApiSession.
 
 
-        :return: The local_uuid of this ApiSession.
+        :return: The user_profile of this ApiSession.
         :rtype: str
         """
-        return self._local_uuid
+        return self._user_profile
 
-    @local_uuid.setter
-    def local_uuid(self, local_uuid: str):
-        """Sets the local_uuid of this ApiSession.
+    @user_profile.setter
+    def user_profile(self, user_profile: str):
+        """Sets the user_profile of this ApiSession.
 
 
-        :param local_uuid: The local_uuid of this ApiSession.
-        :type local_uuid: str
+        :param user_profile: The user_profile of this ApiSession.
+        :type user_profile: str
         """
 
-        self._local_uuid = local_uuid
+        self._user_profile = user_profile

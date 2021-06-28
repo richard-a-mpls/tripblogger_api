@@ -7,11 +7,16 @@ class MongoInterface:
     mongo_uri = "mongodb://mongo:27017/"
     my_db = None
 
-    def get_session(self, session_id):
+    def get_session_by_id(self, session_id):
         my_col = self.my_db["sessions"]
         my_result = my_col.find_one({ "_id": ObjectId(session_id)})
         res_json = {"location": os.environ["host_url"] + "sessions/" + str(my_result["_id"])}
         return res_json
+
+    def get_session_by_api_token(self, api_token):
+        my_col = self.my_db["sessions"]
+        my_result = my_col.find_one({ "api_token": api_token})
+        return my_result
 
     def find_token_session(self, identity_token, identity_issuer):
         print ("find from " + self.mongo_uri)
@@ -21,7 +26,6 @@ class MongoInterface:
         my_result = my_col.find_one({ "identity_token": identity_token, "identity_issuer": identity_issuer})
         print ("got result")
         try:
-            res_json = {"location": os.environ["host_url"] + "sessions/" + str(my_result["_id"])}
             return my_result
         except:
             print ("no session found")
