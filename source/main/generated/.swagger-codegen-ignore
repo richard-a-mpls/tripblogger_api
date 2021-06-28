@@ -22,3 +22,4 @@
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
 **/authorize_controller.py
+**/authorization_controller.py

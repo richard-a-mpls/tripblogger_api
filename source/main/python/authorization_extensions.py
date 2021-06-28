@@ -30,7 +30,7 @@ class AuthorizationExtensions:
         # TODO need to auto create profile if one isn't already in, and associate to session
         session_json = {"identity_token": token,
                         "identity_issuer": graph_domain,
-                        "api_token": uuid.uuid4(),
+                        "api_token": str(uuid.uuid4()),
                         "api_token_expiration": int(time.time())*100000,
                         "profile": {
                             "user_id": user_details_json["id"],
