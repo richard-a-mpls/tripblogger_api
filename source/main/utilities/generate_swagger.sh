@@ -1,0 +1,1 @@
+java -jar /usr/local/Cellar/swagger-codegen/3.0.26/libexec/swagger-codegen-cli.jar generate -i /Users/richardabrahamson/PycharmProjects/tripblogger_api/source/main/swagger/swagger.yaml -o /Users/richardabrahamson/PycharmProjects/tripblogger_api/source/main/generated/ -l python-flask

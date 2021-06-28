@@ -1,0 +1,102 @@
+openapi: "3.0.2"
+info:
+  title: API Title
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/v1
+paths:
+  /authorize:
+    description: "authorize based on identity token"
+    post:
+      tags:
+        - "authorize"
+      summary: "authorize a session for token"
+      description: "authorize based on a centralized token"
+      operationId: "authorize"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizationRequest'
+      responses:
+        '200':
+          description: OK
+  /profile:
+    description: "add a profile"
+    post:
+      tags:
+        - "profile"
+      summary: "create a profile"
+      description: "create a profile"
+      operationId: "addProfile"
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          description: OK
+  /profile/{profileId}:
+    description: "profile operations"
+    get:
+      tags:
+        - "profile"
+      summary: "get a profile by id"
+      description: "get that profile"
+      operationId: "getProfile"
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: "profileId"
+          in: "path"
+          description: "ID of profile to return"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+components:
+  schemas:
+    Profile:
+      type: object
+      required:
+        - profile_name
+      properties:
+        profile_id:
+          type: "string"
+        profile_name:
+          type: "string"
+        connections:
+          type: "array"
+    AuthorizationRequest:
+      type: object
+      required:
+        - identity_token
+      properties:
+        identity_token:
+          type: "string"
+    ApiSession:
+      type: object
+      properties:
+        api_token:
+          type: "string"
+        valid_until:
+          type: "integer"
+        local_uuid:
+          type: "string"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  BearerAuth: []
