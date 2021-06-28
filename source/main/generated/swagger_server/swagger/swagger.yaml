@@ -1,0 +1,111 @@
+openapi: 3.0.2
+info:
+  title: API Title
+  version: "1.0"
+servers:
+- url: http://localhost:8080/v1
+paths:
+  /authorize:
+    description: authorize based on identity token
+    post:
+      tags:
+      - authorize
+      summary: authorize a session for token
+      description: authorize based on a centralized token
+      operationId: authorize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizationRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+      x-openapi-router-controller: swagger_server.controllers.authorize_controller
+  /profile:
+    description: add a profile
+    post:
+      tags:
+      - profile
+      summary: create a profile
+      description: create a profile
+      operationId: add_profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        required: true
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.profile_controller
+  /profile/{profileId}:
+    description: profile operations
+    get:
+      tags:
+      - profile
+      summary: get a profile by id
+      description: get that profile
+      operationId: get_profile
+      parameters:
+      - name: profileId
+        in: path
+        description: ID of profile to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.profile_controller
+components:
+  schemas:
+    Profile:
+      required:
+      - profile_name
+      type: object
+      properties:
+        profile_id:
+          type: string
+        profile_name:
+          type: string
+        connections:
+          type: array
+      example:
+        profile_name: profile_name
+        profile_id: profile_id
+        connections: ""
+    AuthorizationRequest:
+      required:
+      - identity_token
+      type: object
+      properties:
+        identity_token:
+          type: string
+    ApiSession:
+      type: object
+      properties:
+        api_token:
+          type: string
+        valid_until:
+          type: integer
+        local_uuid:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      x-bearerInfoFunc: swagger_server.controllers.authorization_controller.check_BearerAuth
+
