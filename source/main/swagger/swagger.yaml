@@ -89,10 +89,16 @@ components:
       type: object
       required:
         - profile_name
+        - identity_issuer
+        - identity_id
       properties:
         profile_id:
           type: "string"
         profile_name:
+          type: "string"
+        identity_issuer:
+          type: "string"
+        identity_id:
           type: "string"
         connections:
           type: "array"
