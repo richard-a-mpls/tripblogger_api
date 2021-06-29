@@ -22,7 +22,7 @@ paths:
       responses:
         '200':
           description: OK
-  /logout/{apiToken}:
+  /logout/:
     description: "log out of the API session"
     get:
       tags:
@@ -32,7 +32,7 @@ paths:
       operationId: "logout"
       parameters:
         - name: "apiToken"
-          in: "path"
+          in: "query"
           description: "ID of profile to return"
           required: true
           schema:

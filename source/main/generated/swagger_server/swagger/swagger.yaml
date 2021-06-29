@@ -23,7 +23,7 @@ paths:
         "200":
           description: OK
       x-openapi-router-controller: swagger_server.controllers.authorize_controller
-  /logout/{apiToken}:
+  /logout/:
     description: log out of the API session
     get:
       tags:
@@ -33,11 +33,11 @@ paths:
       operationId: logout
       parameters:
       - name: apiToken
-        in: path
+        in: query
         description: ID of profile to return
         required: true
-        style: simple
-        explode: false
+        style: form
+        explode: true
         schema:
           type: string
       responses:
