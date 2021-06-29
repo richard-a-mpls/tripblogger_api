@@ -102,11 +102,17 @@ components:
           type: string
         profile_name:
           type: string
+        identity_issuer:
+          type: string
+        identity_id:
+          type: string
         connections:
           type: array
       example:
         profile_name: profile_name
+        identity_id: identity_id
         profile_id: profile_id
+        identity_issuer: identity_issuer
         connections: ""
     AuthorizationRequest:
       required:

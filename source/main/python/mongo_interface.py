@@ -7,6 +7,26 @@ class MongoInterface:
     mongo_uri = "mongodb://mongo:27017/"
     my_db = None
 
+    def get_profile_by_id(self, profile_id):
+        my_col = self.my_db["profile"]
+        my_result = my_col.find_one({"_id": ObjectId(profile_id)})
+        if my_result is None:
+            print ("profile not found")
+            return
+        return my_result
+
+    def get_profile_by_identity(self, identity_issuer, identity_id):
+        my_col = self.my_db["profile"]
+        my_result = my_col.find_one({"identity_issuer": identity_issuer, "identity_id": identity_id})
+        return my_result
+
+    def create_profile(self, profile_json):
+        print ("find from " + self.mongo_uri)
+        my_col = self.my_db["profile"]
+        id = my_col.insert_one(profile_json)
+        return id.inserted_id
+
+
     def get_session_by_id(self, session_id):
         my_col = self.my_db["sessions"]
         my_result = my_col.find_one({ "_id": ObjectId(session_id)})

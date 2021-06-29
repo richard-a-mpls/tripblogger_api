@@ -28,15 +28,27 @@ class AuthorizationExtensions:
         user_details_json = self.get_user_details(check_token_response['user_id'], token)
 
         # TODO need to auto create profile if one isn't already in, and associate to session
+        found_profile = m_interface.get_profile_by_identity("fb", user_details_json["id"])
+        if found_profile is None:
+            # need to create a new profile
+            profile_json = {
+                "identity_id": user_details_json["id"],
+                "identity_issuer": graph_domain,
+                "profile_name": user_details_json["name"]
+            }
+            print("post to mongo")
+            inserted_id = m_interface.create_profile(profile_json)
+            print("inserted_id: " + str(inserted_id))
+            found_profile = m_interface.get_profile_by_identity(graph_domain, user_details_json["id"])
+            print("inserted profile: " + str(found_profile))
+
+
         session_json = {"identity_token": token,
                         "identity_issuer": graph_domain,
                         "api_token": str(uuid.uuid4()),
                         "api_token_expiration": int(time.time())*100000,
-                        "profile": {
-                            "user_id": user_details_json["id"],
-                            "name": user_details_json["name"],
-                            "email": user_details_json["email"]
-                        }}
+                        "profile": found_profile
+                        }
 
         inserted_id = m_interface.create_session(session_json)
         print ("created new api session with id: " + str(inserted_id) + " api_token of " + str(session_json["api_token"]))
