@@ -18,6 +18,16 @@ class MongoInterface:
         my_result = my_col.find_one({ "api_token": api_token})
         return my_result
 
+    def delete_session_by_api_token(self, api_token):
+        found_session = self.get_session_by_api_token(api_token)
+        if found_session is None:
+            print("could not find session " + api_token + " to delete, blindly returning success")
+            return
+        print("deleting session:  " + str(found_session))
+        my_col = self.my_db["sessions"]
+        res = my_col.delete_one({ "_id": found_session["_id"]})
+        print("deleted " + str(res.deleted_count) + " sessions.")
+
     def find_token_session(self, identity_token, identity_issuer):
         print ("find from " + self.mongo_uri)
         print ("Find token session " + identity_token + ":" + identity_issuer)
