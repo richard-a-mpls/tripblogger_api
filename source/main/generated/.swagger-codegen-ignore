@@ -23,3 +23,4 @@
 #!docs/README.md
 **/authorize_controller.py
 **/authorization_controller.py
+**/__main__.py
