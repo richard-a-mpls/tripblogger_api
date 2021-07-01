@@ -95,6 +95,8 @@ components:
   schemas:
     Profile:
       required:
+      - identity_id
+      - identity_issuer
       - profile_name
       type: object
       properties:

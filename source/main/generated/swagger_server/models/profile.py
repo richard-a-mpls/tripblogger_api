@@ -122,6 +122,8 @@ class Profile(Model):
         :param identity_issuer: The identity_issuer of this Profile.
         :type identity_issuer: str
         """
+        if identity_issuer is None:
+            raise ValueError("Invalid value for `identity_issuer`, must not be `None`")  # noqa: E501
 
         self._identity_issuer = identity_issuer
 
@@ -143,6 +145,8 @@ class Profile(Model):
         :param identity_id: The identity_id of this Profile.
         :type identity_id: str
         """
+        if identity_id is None:
+            raise ValueError("Invalid value for `identity_id`, must not be `None`")  # noqa: E501
 
         self._identity_id = identity_id
 
