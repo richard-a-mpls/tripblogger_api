@@ -1,6 +1,6 @@
 import connexion
 import six
-
+from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.profile import Profile  # noqa: E501
 from swagger_server import util
 
@@ -31,3 +31,17 @@ def get_profile(profile_id):  # noqa: E501
     :rtype: Profile
     """
     return 'do some magic!'
+
+
+def get_session_profile():  # noqa: E501
+    """get a profile based on authorized session
+
+     # noqa: E501
+
+
+    :rtype: Profile
+    """
+    print("look at profiles for user: " + str(connexion.request.authorization))
+    print("found profile: " + str(connexion.request.authorization["profile"]))
+    response = Profile.from_dict(connexion.request.authorization["profile"])
+    return response

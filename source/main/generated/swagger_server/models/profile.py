@@ -14,7 +14,7 @@ class Profile(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, profile_id: str=None, profile_name: str=None, identity_issuer: str=None, identity_id: str=None, connections: List=None):  # noqa: E501
+    def __init__(self, profile_id: str=None, profile_name: str=None, identity_issuer: str=None, identity_id: str=None, connections: List[str]=None):  # noqa: E501
         """Profile - a model defined in Swagger
 
         :param profile_id: The profile_id of this Profile.  # noqa: E501
@@ -26,14 +26,14 @@ class Profile(Model):
         :param identity_id: The identity_id of this Profile.  # noqa: E501
         :type identity_id: str
         :param connections: The connections of this Profile.  # noqa: E501
-        :type connections: List
+        :type connections: List[str]
         """
         self.swagger_types = {
             'profile_id': str,
             'profile_name': str,
             'identity_issuer': str,
             'identity_id': str,
-            'connections': List
+            'connections': List[str]
         }
 
         self.attribute_map = {
@@ -151,22 +151,22 @@ class Profile(Model):
         self._identity_id = identity_id
 
     @property
-    def connections(self) -> List:
+    def connections(self) -> List[str]:
         """Gets the connections of this Profile.
 
 
         :return: The connections of this Profile.
-        :rtype: List
+        :rtype: List[str]
         """
         return self._connections
 
     @connections.setter
-    def connections(self, connections: List):
+    def connections(self, connections: List[str]):
         """Sets the connections of this Profile.
 
 
         :param connections: The connections of this Profile.
-        :type connections: List
+        :type connections: List[str]
         """
 
         self._connections = connections

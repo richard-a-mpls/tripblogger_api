@@ -25,3 +25,4 @@
 **/authorization_controller.py
 **/__main__.py
 **/logout_controller.py
+**/profile_controller.py

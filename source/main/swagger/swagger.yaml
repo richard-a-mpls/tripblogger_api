@@ -59,6 +59,20 @@ paths:
       responses:
         '200':
           description: OK
+    get:
+      tags:
+        - "profile"
+      summary: "get a profile based on authorized session"
+      operationId: "getSessionProfile"
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
   /profile/{profileId}:
     description: "profile operations"
     get:
@@ -102,6 +116,8 @@ components:
           type: "string"
         connections:
           type: "array"
+          items:
+            type: "string"
     AuthorizationRequest:
       type: object
       required:
@@ -127,4 +143,4 @@ components:
       type: http
       scheme: bearer
 security:
-  BearerAuth: []
+  - BearerAuth: []

@@ -4,6 +4,8 @@ info:
   version: "1.0"
 servers:
 - url: http://localhost:8080/v1
+security:
+- BearerAuth: []
 paths:
   /authorize:
     description: authorize based on identity token
@@ -46,6 +48,21 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.logout_controller
   /profile:
     description: add a profile
+    get:
+      tags:
+      - profile
+      summary: get a profile based on authorized session
+      operationId: get_session_profile
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.profile_controller
     post:
       tags:
       - profile
@@ -110,12 +127,16 @@ components:
           type: string
         connections:
           type: array
+          items:
+            type: string
       example:
         profile_name: profile_name
         identity_id: identity_id
         profile_id: profile_id
         identity_issuer: identity_issuer
-        connections: ""
+        connections:
+        - connections
+        - connections
     AuthorizationRequest:
       required:
       - identity_token
