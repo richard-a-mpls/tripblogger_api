@@ -44,11 +44,7 @@ def get_session_profile():  # noqa: E501
 
     :rtype: Profile
     """
-    print("look at profiles for user: " + str(connexion.request.authorization))
-    print("found profile: " + connexion.request.authorization["user_profile"])
-    #profile_id = Profile.from_dict(connexion.request.authorization["user_profile"])
     response = get_profile(connexion.request.authorization["user_profile"])
-    print("respondo: " + str(response))
     return_profile = Profile.from_dict(response)
     return return_profile
 
@@ -63,7 +59,7 @@ def patch_profile(body, profile_id):  # noqa: E501
     :param profile_id: ID of profile to return
     :type profile_id: str
 
-    :rtype: None
+    :rtype: Profile
     """
     if connexion.request.is_json:
         body = Profile.from_dict(connexion.request.get_json())  # noqa: E501
@@ -79,5 +75,5 @@ def patch_profile(body, profile_id):  # noqa: E501
     if persist_changes:
         print ("submit to mongo")
         m_interface = MongoInterface()
-        m_interface.patch_profile(profile_id, set_values)
-    return 'do some magic!'
+        return_profile = Profile().from_dict(m_interface.patch_profile(profile_id, set_values))
+    return return_profile

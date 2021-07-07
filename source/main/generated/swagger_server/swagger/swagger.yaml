@@ -129,6 +129,10 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.profile_controller

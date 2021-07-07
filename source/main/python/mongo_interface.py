@@ -39,15 +39,7 @@ class MongoInterface:
         cursor = my_col.find()
         print ("printing found")
         for record in cursor:
-            print(record)
-        print ("done printing found")
-
-        print (str(my_result.matched_count))
-        print (str(my_result.upserted_id))
-        print (str(my_result.modified_count))
-
-        returned_profile = self.get_profile_by_id(profile_id)
-        print ("returned profile: " + str(returned_profile))
+            return record
 
     def get_session_by_id(self, session_id):
         my_col = self.my_db["sessions"]
