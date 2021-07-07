@@ -27,17 +27,12 @@ class MongoInterface:
         return id.inserted_id
 
     def patch_profile(self, profile_id, attributes_json):
-        print ("patch profile ")
-        print ("profile id: " + str(profile_id))
-        print ("json: " + str(attributes_json))
-
         my_col = self.my_db["profile"]
 
         filter = {"_id": ObjectId(profile_id)}
         new_values = {"$set": attributes_json}
-        my_result = my_col.update_one(filter, new_values)
+        my_col.update_one(filter, new_values)
         cursor = my_col.find()
-        print ("printing found")
         for record in cursor:
             return record
 

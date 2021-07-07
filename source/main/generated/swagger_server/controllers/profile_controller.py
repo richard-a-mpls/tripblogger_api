@@ -2,7 +2,6 @@ import connexion
 import six
 from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.profile import Profile  # noqa: E501
-from swagger_server import util
 
 profile_attributes = ["profile_name"]
 
@@ -64,16 +63,13 @@ def patch_profile(body, profile_id):  # noqa: E501
     if connexion.request.is_json:
         body = Profile.from_dict(connexion.request.get_json())  # noqa: E501
 
-    print ("looking at patch for " + profile_id)
     set_values = {}
     persist_changes = False
     if body.profile_name is not None:
         set_values['profile_name'] = body.profile_name
-        print ("setting value for profile_name to " + set_values['profile_name'])
         persist_changes = True
 
     if persist_changes:
-        print ("submit to mongo")
         m_interface = MongoInterface()
         return_profile = Profile().from_dict(m_interface.patch_profile(profile_id, set_values))
     return return_profile
