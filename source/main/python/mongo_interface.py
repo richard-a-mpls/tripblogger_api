@@ -26,6 +26,28 @@ class MongoInterface:
         id = my_col.insert_one(profile_json)
         return id.inserted_id
 
+    def patch_profile(self, profile_id, attributes_json):
+        print ("patch profile ")
+        print ("profile id: " + str(profile_id))
+        print ("json: " + str(attributes_json))
+
+        my_col = self.my_db["profile"]
+
+        filter = {"_id": ObjectId(profile_id)}
+        new_values = {"$set": attributes_json}
+        my_result = my_col.update_one(filter, new_values)
+        cursor = my_col.find()
+        print ("printing found")
+        for record in cursor:
+            print(record)
+        print ("done printing found")
+
+        print (str(my_result.matched_count))
+        print (str(my_result.upserted_id))
+        print (str(my_result.modified_count))
+
+        returned_profile = self.get_profile_by_id(profile_id)
+        print ("returned profile: " + str(returned_profile))
 
     def get_session_by_id(self, session_id):
         my_col = self.my_db["sessions"]

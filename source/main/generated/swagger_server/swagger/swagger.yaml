@@ -4,8 +4,6 @@ info:
   version: "1.0"
 servers:
 - url: http://localhost:8080/v1
-security:
-- BearerAuth: []
 paths:
   /authorize:
     description: authorize based on identity token
@@ -108,16 +106,40 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.profile_controller
+    patch:
+      tags:
+      - profile
+      summary: update attributes of a profile
+      operationId: patch_profile
+      parameters:
+      - name: profileId
+        in: path
+        description: ID of profile to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        required: true
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.profile_controller
 components:
   schemas:
     Profile:
       required:
-      - identity_id
-      - identity_issuer
       - profile_name
       type: object
       properties:
-        profile_id:
+        _id:
           type: string
         profile_name:
           type: string
@@ -132,8 +154,8 @@ components:
       example:
         profile_name: profile_name
         identity_id: identity_id
-        profile_id: profile_id
         identity_issuer: identity_issuer
+        _id: _id
         connections:
         - connections
         - connections
