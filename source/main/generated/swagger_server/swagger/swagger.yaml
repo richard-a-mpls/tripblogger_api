@@ -46,6 +46,21 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.logout_controller
   /profile:
     description: add a profile
+    get:
+      tags:
+      - profile
+      summary: get a profile based on authorized session
+      operationId: get_session_profile
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.profile_controller
     post:
       tags:
       - profile
@@ -91,16 +106,44 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.profile_controller
+    patch:
+      tags:
+      - profile
+      summary: update attributes of a profile
+      operationId: patch_profile
+      parameters:
+      - name: profileId
+        in: path
+        description: ID of profile to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.profile_controller
 components:
   schemas:
     Profile:
       required:
-      - identity_id
-      - identity_issuer
       - profile_name
       type: object
       properties:
-        profile_id:
+        _id:
           type: string
         profile_name:
           type: string
@@ -110,12 +153,16 @@ components:
           type: string
         connections:
           type: array
+          items:
+            type: string
       example:
         profile_name: profile_name
         identity_id: identity_id
-        profile_id: profile_id
         identity_issuer: identity_issuer
-        connections: ""
+        _id: _id
+        connections:
+        - connections
+        - connections
     AuthorizationRequest:
       required:
       - identity_token

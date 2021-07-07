@@ -47,7 +47,7 @@ class AuthorizationExtensions:
                         "identity_issuer": graph_domain,
                         "api_token": str(uuid.uuid4()),
                         "api_token_expiration": int(time.time())*100000,
-                        "profile": found_profile
+                        "user_profile": str(found_profile["_id"])
                         }
 
         inserted_id = m_interface.create_session(session_json)

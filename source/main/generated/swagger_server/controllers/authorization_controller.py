@@ -13,7 +13,7 @@ def check_BearerAuth(token):
     # TODO - validation should be done via the mongo held api_token via m_interface.get_session_by_api_token
     m_interface = MongoInterface()
     api_session = m_interface.get_session_by_api_token(token)
-    print ("response from check session was: " + str(api_session))
+    #print ("response from check session was: " + str(api_session))
     if api_session is None:
         print ("Unable to find API Session by token")
         return None

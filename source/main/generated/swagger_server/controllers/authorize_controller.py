@@ -7,6 +7,7 @@ from swagger_server import util
 
 
 def authorize(body):  # noqa: E501
+    print ("AUTHORIZE")
     """authorize a session for token
 
     authorize based on a centralized token # noqa: E501
