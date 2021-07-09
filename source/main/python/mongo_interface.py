@@ -24,6 +24,11 @@ class MongoInterface:
         print ("find from " + self.mongo_uri)
         my_col = self.my_db["profile"]
         id = my_col.insert_one(profile_json)
+        cursor = my_col.find()
+        for record in cursor:
+            print ("creating profile")
+            print (record)
+
         return id.inserted_id
 
     def patch_profile(self, profile_id, attributes_json):
@@ -107,6 +112,26 @@ class MongoInterface:
         my_col = self.my_db["customers"]
         res = my_col.delete_one({ "_id": ObjectId(task_id)})
         return res.deleted_count
+
+    def create_project(self, project_json):
+        print ("find from " + self.mongo_uri)
+        my_col = self.my_db["projects"]
+        id = my_col.insert_one(project_json)
+        cursor = my_col.find()
+        for record in cursor:
+            print ("creating project")
+            print ("created id: " + str(id.inserted_id))
+            return record
+
+        return id.inserted_id
+
+    def get_projects(self, profile_id):
+        my_col = self.my_db["projects"]
+        my_list = my_col.find({ "profile_id": profile_id})
+        my_results = list()
+        for l in my_list:
+            my_results.append(l)
+        return my_list.count(), my_results
 
     def __init__(self):
         myclient = pymongo.MongoClient("mongodb://mongo:27017/")

@@ -136,6 +136,71 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.profile_controller
+  /me/projects:
+    description: project related calls
+    get:
+      tags:
+      - project
+      summary: get a project based on authorized session
+      operationId: get_session_projects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+                x-content-type: application/json
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.project_controller
+    post:
+      tags:
+      - project
+      summary: create a project
+      description: create a project
+      operationId: add_project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.project_controller
+  /projects/{project_id}:
+    description: project operations
+    get:
+      tags:
+      - project
+      summary: get a project by id
+      description: get that project
+      operationId: get_project
+      parameters:
+      - name: project_id
+        in: path
+        description: ID of project to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.project_controller
 components:
   schemas:
     Profile:
@@ -183,6 +248,116 @@ components:
           type: integer
         user_profile:
           type: string
+    Project:
+      type: object
+      properties:
+        _id:
+          type: string
+        profile_id:
+          type: string
+        summary:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        published:
+          type: boolean
+        share_with:
+          type: string
+          enum:
+          - private
+          - public
+          - connections
+        project_days:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectDay'
+      example:
+        summary: summary
+        project_days:
+        - summary: summary
+          date: date
+          description: description
+          location: location
+          _id: _id
+          photos:
+          - summary: summary
+            description: description
+            location: location
+            _id: _id
+          - summary: summary
+            description: description
+            location: location
+            _id: _id
+        - summary: summary
+          date: date
+          description: description
+          location: location
+          _id: _id
+          photos:
+          - summary: summary
+            description: description
+            location: location
+            _id: _id
+          - summary: summary
+            description: description
+            location: location
+            _id: _id
+        profile_id: profile_id
+        description: description
+        share_with: private
+        location: location
+        _id: _id
+        published: true
+    ProjectDay:
+      type: object
+      properties:
+        _id:
+          type: string
+        summary:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        date:
+          type: string
+        photos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Photo'
+      example:
+        summary: summary
+        date: date
+        description: description
+        location: location
+        _id: _id
+        photos:
+        - summary: summary
+          description: description
+          location: location
+          _id: _id
+        - summary: summary
+          description: description
+          location: location
+          _id: _id
+    Photo:
+      type: object
+      properties:
+        _id:
+          type: string
+        summary:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+      example:
+        summary: summary
+        description: description
+        location: location
+        _id: _id
   securitySchemes:
     BearerAuth:
       type: http
