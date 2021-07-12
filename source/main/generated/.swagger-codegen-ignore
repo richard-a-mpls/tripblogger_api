@@ -26,3 +26,4 @@
 **/__main__.py
 **/logout_controller.py
 **/profile_controller.py
+**/project_controller.py
