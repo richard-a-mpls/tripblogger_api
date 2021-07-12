@@ -160,6 +160,27 @@ paths:
                 items:
                   $ref: "#/components/schemas/Project"
 
+  /me/projects/{project_id}:
+    description: "project operations for an individual session"
+    delete:
+      tags:
+        - "project"
+      summary: "delete a project by id"
+      description: "delete that project"
+      operationId: "deleteProject"
+      security:
+        - BearerAuth: [ ]
+      parameters:
+        - name: "project_id"
+          in: "path"
+          description: "ID of project to delete"
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+
   /projects/{project_id}:
     description: "project operations"
     get:
@@ -184,27 +205,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
-    delete:
-      tags:
-        - "project"
-      summary: "delete a project by id"
-      description: "delete that project"
-      operationId: "deleteProject"
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: "project_id"
-          in: "path"
-          description: "ID of project to delete"
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-
-
-
 components:
   schemas:
     Profile:
