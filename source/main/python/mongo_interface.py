@@ -117,13 +117,7 @@ class MongoInterface:
         print ("find from " + self.mongo_uri)
         my_col = self.my_db["projects"]
         id = my_col.insert_one(project_json)
-        cursor = my_col.find()
-        for record in cursor:
-            print ("creating project")
-            print ("created id: " + str(id.inserted_id))
-            return record
-
-        return id.inserted_id
+        return self.get_project(id.inserted_id)
 
     def get_projects(self, profile_id):
         my_col = self.my_db["projects"]
@@ -132,6 +126,11 @@ class MongoInterface:
         for l in my_list:
             my_results.append(l)
         return my_list.count(), my_results
+
+    def get_project(self, project_id):
+        my_col = self.my_db["projects"]
+        return my_col.find_one({ "_id": ObjectId(project_id)})
+
 
     def __init__(self):
         myclient = pymongo.MongoClient("mongodb://mongo:27017/")

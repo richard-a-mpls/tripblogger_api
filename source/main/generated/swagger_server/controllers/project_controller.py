@@ -19,9 +19,14 @@ def add_project(body):  # noqa: E501
         body = Project.from_dict(connexion.request.get_json())  # noqa: E501
 
     body.profile_id=connexion.request.authorization["user_profile"]
+    if body.published is None:
+        body.published = False
+    if body.share_with is None:
+        body.share_with = "private"
     print("create project for " + body.profile_id + ":" + str(body))
     m_interface = MongoInterface()
     response = m_interface.create_project(body.to_dict())
+    print("RESPO: " + str(response))
     return_project = Project.from_dict(response)
 
     # TODO - update swagger spec to add return object.
