@@ -32,6 +32,27 @@ def add_project(body):  # noqa: E501
     # TODO - update swagger spec to add return object.
     return return_project
 
+def delete_project(project_id):  # noqa: E501
+    """delete a project by id
+
+    delete that project # noqa: E501
+
+    :param project_id: ID of project to delete
+    :type project_id: str
+
+    :rtype: None
+    """
+    profile_id = connexion.request.authorization["user_profile"]
+    m_interface = MongoInterface()
+    project_to_delete = m_interface.get_project(project_id)
+    print(project_to_delete["profile_id"])
+    print(profile_id)
+    if project_to_delete["profile_id"] != profile_id:
+        print ("profile ID does not match")
+        return {"status": 401, "reason": "Not Authorized"}
+    m_interface.delete_project(project_id)
+    return {"status": 200, "description": "Deleted " + project_id}
+
 
 def get_project(project_id):  # noqa: E501
     """get a project by id
@@ -52,7 +73,7 @@ def get_session_projects():  # noqa: E501
      # noqa: E501
 
 
-    :rtype: Project
+    :rtype: List[Project]
     """
 
     profile_id = connexion.request.authorization["user_profile"]

@@ -119,6 +119,12 @@ class MongoInterface:
         id = my_col.insert_one(project_json)
         return self.get_project(id.inserted_id)
 
+    def delete_project(self, project_id):
+        print("delete project: " + project_id)
+        my_col = self.my_db["projects"]
+        result = my_col.delete_one({"_id": ObjectId(project_id)})
+        print("delete result: " + str(result.deleted_count))
+
     def get_projects(self, profile_id):
         my_col = self.my_db["projects"]
         my_list = my_col.find({ "profile_id": profile_id})
