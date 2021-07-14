@@ -15,7 +15,7 @@ class ProjectDay(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, summary: str=None, description: str=None, location: str=None, _date: str=None, photos: List[Photo]=None):  # noqa: E501
+    def __init__(self, id: str=None, summary: str=None, description: str=None, location: str=None, datestmp: str=None, photos: List[Photo]=None):  # noqa: E501
         """ProjectDay - a model defined in Swagger
 
         :param id: The id of this ProjectDay.  # noqa: E501
@@ -26,8 +26,8 @@ class ProjectDay(Model):
         :type description: str
         :param location: The location of this ProjectDay.  # noqa: E501
         :type location: str
-        :param _date: The _date of this ProjectDay.  # noqa: E501
-        :type _date: str
+        :param datestmp: The datestmp of this ProjectDay.  # noqa: E501
+        :type datestmp: str
         :param photos: The photos of this ProjectDay.  # noqa: E501
         :type photos: List[Photo]
         """
@@ -36,7 +36,7 @@ class ProjectDay(Model):
             'summary': str,
             'description': str,
             'location': str,
-            '_date': str,
+            'datestmp': str,
             'photos': List[Photo]
         }
 
@@ -45,14 +45,14 @@ class ProjectDay(Model):
             'summary': 'summary',
             'description': 'description',
             'location': 'location',
-            '_date': 'date',
+            'datestmp': 'datestmp',
             'photos': 'photos'
         }
         self._id = id
         self._summary = summary
         self._description = description
         self._location = location
-        self.__date = _date
+        self._datestmp = datestmp
         self._photos = photos
 
     @classmethod
@@ -151,25 +151,25 @@ class ProjectDay(Model):
         self._location = location
 
     @property
-    def _date(self) -> str:
-        """Gets the _date of this ProjectDay.
+    def datestmp(self) -> str:
+        """Gets the datestmp of this ProjectDay.
 
 
-        :return: The _date of this ProjectDay.
+        :return: The datestmp of this ProjectDay.
         :rtype: str
         """
-        return self.__date
+        return self._datestmp
 
-    @_date.setter
-    def _date(self, _date: str):
-        """Sets the _date of this ProjectDay.
+    @datestmp.setter
+    def datestmp(self, datestmp: str):
+        """Sets the datestmp of this ProjectDay.
 
 
-        :param _date: The _date of this ProjectDay.
-        :type _date: str
+        :param datestmp: The datestmp of this ProjectDay.
+        :type datestmp: str
         """
 
-        self.__date = _date
+        self._datestmp = datestmp
 
     @property
     def photos(self) -> List[Photo]:

@@ -300,10 +300,10 @@ components:
         summary: summary
         project_days:
         - summary: summary
-          date: date
           description: description
           location: location
           _id: _id
+          datestmp: datestmp
           photos:
           - summary: summary
             description: description
@@ -314,10 +314,10 @@ components:
             location: location
             _id: _id
         - summary: summary
-          date: date
           description: description
           location: location
           _id: _id
+          datestmp: datestmp
           photos:
           - summary: summary
             description: description
@@ -344,7 +344,7 @@ components:
           type: string
         location:
           type: string
-        date:
+        datestmp:
           type: string
         photos:
           type: array
@@ -352,10 +352,10 @@ components:
             $ref: '#/components/schemas/Photo'
       example:
         summary: summary
-        date: date
         description: description
         location: location
         _id: _id
+        datestmp: datestmp
         photos:
         - summary: summary
           description: description

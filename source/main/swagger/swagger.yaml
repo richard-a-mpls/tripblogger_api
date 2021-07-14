@@ -281,7 +281,7 @@ components:
           type: "string"
         location:
           type: "string"
-        date:
+        datestmp:
           type: "string"
         photos:
           type: "array"

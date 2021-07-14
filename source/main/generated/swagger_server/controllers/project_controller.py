@@ -1,8 +1,9 @@
 import connexion
 import six
 from swagger_server.extensions.mongo_interface import MongoInterface
-from swagger_server.models.project import Project  # noqa: E501
+from swagger_server.models.project import Project, ProjectDay  # noqa: E501
 from swagger_server import util
+import time
 
 
 def add_project(body):  # noqa: E501
@@ -24,6 +25,28 @@ def add_project(body):  # noqa: E501
     if body.share_with is None:
         body.share_with = "private"
     print("create project for " + body.profile_id + ":" + str(body))
+
+    # Setup a placeholder project day
+    current_date_str = time.strftime('%Y-%m-%d')
+
+    if body.project_days is None:
+        project_day = ProjectDay()
+        project_day.summary = body.summary
+        project_day.description = body.description
+        project_day.location = body.location
+        project_day.datestmp = current_date_str
+        body.project_days = [project_day]
+    else:
+        for pd in body.project_days:
+            if pd.summary is None:
+                pd.summary = body.summary
+            if pd.description is None:
+                pd.description = body.description
+            if pd.location is None:
+                pd.location = body.location
+            if pd.datestmp is None:
+                pd._date = current_date_str
+
     m_interface = MongoInterface()
     response = m_interface.create_project(body.to_dict())
     print("RESPO: " + str(response))
