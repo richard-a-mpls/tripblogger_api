@@ -12,6 +12,15 @@
             </DockerEnvVarImpl>
           </list>
         </option>
+        <option name="portBindings">
+          <list>
+            <DockerPortBindingImpl>
+              <option name="containerPort" value="27017" />
+              <option name="hostIp" value="127.0.0.1" />
+              <option name="hostPort" value="27017" />
+            </DockerPortBindingImpl>
+          </list>
+        </option>
         <option name="commandLineOptions" value="--network tripbloggerInternal" />
         <option name="volumeBindings">
           <list>
