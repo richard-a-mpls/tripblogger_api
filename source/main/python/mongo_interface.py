@@ -122,6 +122,10 @@ class MongoInterface:
         my_col = self.my_db["photos"]
         return my_col.find_one({"_id": ObjectId(photo_id)})
 
+    def delete_photo(self, photo_id):
+        print("delete photo: " + photo_id)
+        my_col = self.my_db["photos"]
+        result = my_col.delete_one({"_id": ObjectId(photo_id)})
 
     def create_project(self, project_json):
         print ("find from " + self.mongo_uri)
