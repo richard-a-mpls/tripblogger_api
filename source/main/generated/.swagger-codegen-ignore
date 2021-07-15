@@ -27,3 +27,4 @@
 **/logout_controller.py
 **/profile_controller.py
 **/project_controller.py
+**/photo_controller.py

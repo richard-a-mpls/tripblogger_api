@@ -14,35 +14,40 @@ class Photo(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, summary: str=None, description: str=None, location: str=None):  # noqa: E501
+    def __init__(self, id: str=None, summary: str=None, name: str=None, type: str=None, data: str=None):  # noqa: E501
         """Photo - a model defined in Swagger
 
         :param id: The id of this Photo.  # noqa: E501
         :type id: str
         :param summary: The summary of this Photo.  # noqa: E501
         :type summary: str
-        :param description: The description of this Photo.  # noqa: E501
-        :type description: str
-        :param location: The location of this Photo.  # noqa: E501
-        :type location: str
+        :param name: The name of this Photo.  # noqa: E501
+        :type name: str
+        :param type: The type of this Photo.  # noqa: E501
+        :type type: str
+        :param data: The data of this Photo.  # noqa: E501
+        :type data: str
         """
         self.swagger_types = {
             'id': str,
             'summary': str,
-            'description': str,
-            'location': str
+            'name': str,
+            'type': str,
+            'data': str
         }
 
         self.attribute_map = {
             'id': '_id',
             'summary': 'summary',
-            'description': 'description',
-            'location': 'location'
+            'name': 'name',
+            'type': 'type',
+            'data': 'data'
         }
         self._id = id
         self._summary = summary
-        self._description = description
-        self._location = location
+        self._name = name
+        self._type = type
+        self._data = data
 
     @classmethod
     def from_dict(cls, dikt) -> 'Photo':
@@ -98,43 +103,64 @@ class Photo(Model):
         self._summary = summary
 
     @property
-    def description(self) -> str:
-        """Gets the description of this Photo.
+    def name(self) -> str:
+        """Gets the name of this Photo.
 
 
-        :return: The description of this Photo.
+        :return: The name of this Photo.
         :rtype: str
         """
-        return self._description
+        return self._name
 
-    @description.setter
-    def description(self, description: str):
-        """Sets the description of this Photo.
+    @name.setter
+    def name(self, name: str):
+        """Sets the name of this Photo.
 
 
-        :param description: The description of this Photo.
-        :type description: str
+        :param name: The name of this Photo.
+        :type name: str
         """
 
-        self._description = description
+        self._name = name
 
     @property
-    def location(self) -> str:
-        """Gets the location of this Photo.
+    def type(self) -> str:
+        """Gets the type of this Photo.
 
 
-        :return: The location of this Photo.
+        :return: The type of this Photo.
         :rtype: str
         """
-        return self._location
+        return self._type
 
-    @location.setter
-    def location(self, location: str):
-        """Sets the location of this Photo.
+    @type.setter
+    def type(self, type: str):
+        """Sets the type of this Photo.
 
 
-        :param location: The location of this Photo.
-        :type location: str
+        :param type: The type of this Photo.
+        :type type: str
         """
 
-        self._location = location
+        self._type = type
+
+    @property
+    def data(self) -> str:
+        """Gets the data of this Photo.
+
+
+        :return: The data of this Photo.
+        :rtype: str
+        """
+        return self._data
+
+    @data.setter
+    def data(self, data: str):
+        """Sets the data of this Photo.
+
+
+        :param data: The data of this Photo.
+        :type data: str
+        """
+
+        self._data = data

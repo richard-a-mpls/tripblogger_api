@@ -224,6 +224,45 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.project_controller
+  /photos/{photo_id}:
+    description: photo operations
+    get:
+      tags:
+      - photo
+      summary: get a photo
+      operationId: get_photo
+      parameters:
+      - name: photo_id
+        in: path
+        description: ID of the photo to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+      x-openapi-router-controller: swagger_server.controllers.photo_controller
+  /photos:
+    description: photo post operations
+    post:
+      tags:
+      - photo
+      summary: upload a photo
+      description: upload a photo
+      operationId: add_photo
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/photos_body'
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.photo_controller
 components:
   schemas:
     Profile:
@@ -286,6 +325,8 @@ components:
           type: string
         published:
           type: boolean
+        showcase_photo_id:
+          type: string
         share_with:
           type: string
           enum:
@@ -306,13 +347,15 @@ components:
           datestmp: datestmp
           photos:
           - summary: summary
-            description: description
-            location: location
+            data: data
+            name: name
             _id: _id
+            type: type
           - summary: summary
-            description: description
-            location: location
+            data: data
+            name: name
             _id: _id
+            type: type
         - summary: summary
           description: description
           location: location
@@ -320,13 +363,16 @@ components:
           datestmp: datestmp
           photos:
           - summary: summary
-            description: description
-            location: location
+            data: data
+            name: name
             _id: _id
+            type: type
           - summary: summary
-            description: description
-            location: location
+            data: data
+            name: name
             _id: _id
+            type: type
+        showcase_photo_id: showcase_photo_id
         profile_id: profile_id
         description: description
         share_with: private
@@ -358,13 +404,15 @@ components:
         datestmp: datestmp
         photos:
         - summary: summary
-          description: description
-          location: location
+          data: data
+          name: name
           _id: _id
+          type: type
         - summary: summary
-          description: description
-          location: location
+          data: data
+          name: name
           _id: _id
+          type: type
     Photo:
       type: object
       properties:
@@ -372,15 +420,28 @@ components:
           type: string
         summary:
           type: string
-        description:
+        name:
           type: string
-        location:
+        type:
+          type: string
+        data:
           type: string
       example:
         summary: summary
-        description: description
-        location: location
+        data: data
+        name: name
         _id: _id
+        type: type
+    photos_body:
+      type: object
+      properties:
+        orderId:
+          type: integer
+        userId:
+          type: integer
+        fileName:
+          type: string
+          format: binary
   securitySchemes:
     BearerAuth:
       type: http
