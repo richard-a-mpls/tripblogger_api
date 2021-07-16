@@ -332,7 +332,7 @@ components:
         photos:
           type: "array"
           items:
-            $ref: "#/components/schemas/Photo"
+            type: "string"
 
     Photo:
       type: object

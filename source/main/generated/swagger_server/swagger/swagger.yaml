@@ -346,32 +346,16 @@ components:
           _id: _id
           datestmp: datestmp
           photos:
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
+          - photos
+          - photos
         - summary: summary
           description: description
           location: location
           _id: _id
           datestmp: datestmp
           photos:
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
+          - photos
+          - photos
         showcase_photo_id: showcase_photo_id
         profile_id: profile_id
         description: description
@@ -395,7 +379,7 @@ components:
         photos:
           type: array
           items:
-            $ref: '#/components/schemas/Photo'
+            type: string
       example:
         summary: summary
         description: description
@@ -403,16 +387,8 @@ components:
         _id: _id
         datestmp: datestmp
         photos:
-        - summary: summary
-          data: data
-          name: name
-          _id: _id
-          type: type
-        - summary: summary
-          data: data
-          name: name
-          _id: _id
-          type: type
+        - photos
+        - photos
     Photo:
       type: object
       properties:
@@ -426,12 +402,6 @@ components:
           type: string
         data:
           type: string
-      example:
-        summary: summary
-        data: data
-        name: name
-        _id: _id
-        type: type
     photos_body:
       type: object
       properties:

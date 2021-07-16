@@ -6,7 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.photo import Photo  # noqa: F401,E501
 from swagger_server import util
 
 
@@ -15,7 +14,7 @@ class ProjectDay(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, summary: str=None, description: str=None, location: str=None, datestmp: str=None, photos: List[Photo]=None):  # noqa: E501
+    def __init__(self, id: str=None, summary: str=None, description: str=None, location: str=None, datestmp: str=None, photos: List[str]=None):  # noqa: E501
         """ProjectDay - a model defined in Swagger
 
         :param id: The id of this ProjectDay.  # noqa: E501
@@ -29,7 +28,7 @@ class ProjectDay(Model):
         :param datestmp: The datestmp of this ProjectDay.  # noqa: E501
         :type datestmp: str
         :param photos: The photos of this ProjectDay.  # noqa: E501
-        :type photos: List[Photo]
+        :type photos: List[str]
         """
         self.swagger_types = {
             'id': str,
@@ -37,7 +36,7 @@ class ProjectDay(Model):
             'description': str,
             'location': str,
             'datestmp': str,
-            'photos': List[Photo]
+            'photos': List[str]
         }
 
         self.attribute_map = {
@@ -172,22 +171,22 @@ class ProjectDay(Model):
         self._datestmp = datestmp
 
     @property
-    def photos(self) -> List[Photo]:
+    def photos(self) -> List[str]:
         """Gets the photos of this ProjectDay.
 
 
         :return: The photos of this ProjectDay.
-        :rtype: List[Photo]
+        :rtype: List[str]
         """
         return self._photos
 
     @photos.setter
-    def photos(self, photos: List[Photo]):
+    def photos(self, photos: List[str]):
         """Sets the photos of this ProjectDay.
 
 
         :param photos: The photos of this ProjectDay.
-        :type photos: List[Photo]
+        :type photos: List[str]
         """
 
         self._photos = photos
