@@ -4,6 +4,7 @@ from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.project import Project, ProjectDay  # noqa: E501
 from swagger_server import util
 import time
+import uuid
 
 
 def add_project(body):  # noqa: E501
@@ -34,9 +35,11 @@ def add_project(body):  # noqa: E501
         project_day.description = body.description
         project_day.location = body.location
         project_day.datestmp = current_date_str
+        project_day.id = str(uuid.uuid4())
         body.project_days = [project_day]
     else:
         for pd in body.project_days:
+            pd.id = str(uuid.uuid4())
             if pd.summary is None:
                 pd.summary = body.summary
             if pd.description is None:
