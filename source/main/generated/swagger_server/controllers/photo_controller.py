@@ -23,15 +23,7 @@ def add_photo(order_id=None, user_id=None, file_name=None):  # noqa: E501
 
     :rtype: None
     """
-    print (connexion.request)
-    print (connexion.request.files)
-    for f in connexion.request.files:
-        print ("one")
-        print (f)
-
-    print (connexion.request.files['file'])
     uploaded_file = connexion.request.files['file']
-    print (uploaded_file.filename)
 
     header = uploaded_file.stream.read(512)
     uploaded_file.stream.seek(0)
@@ -39,9 +31,6 @@ def add_photo(order_id=None, user_id=None, file_name=None):  # noqa: E501
     photo = Photo()
     photo.name = uploaded_file.filename
     photo.type = imghdr.what(None, header)
-
-    print (imghdr.what(None, header))
-
     photo.data = Binary(uploaded_file.stream.read())
     m_interface = MongoInterface()
     inserted_id = m_interface.create_photo(photo.to_dict())
@@ -61,10 +50,5 @@ def get_photo(photo_id):  # noqa: E501
     """
     m_interface = MongoInterface()
     photo = m_interface.get_photo(photo_id)
-    print (photo)
-
-    print (photo["name"])
     obj = photo["data"]
-    print (obj)
     return send_file(io.BytesIO(obj), mimetype='image/jpeg')
-    #return 'do some magic!'
