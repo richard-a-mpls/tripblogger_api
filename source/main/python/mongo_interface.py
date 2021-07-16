@@ -113,6 +113,20 @@ class MongoInterface:
         res = my_col.delete_one({ "_id": ObjectId(task_id)})
         return res.deleted_count
 
+    def create_photo(self, project_json):
+        my_col = self.my_db["photos"]
+        id = my_col.insert_one(project_json)
+        return str(id.inserted_id)
+
+    def get_photo(self, photo_id):
+        my_col = self.my_db["photos"]
+        return my_col.find_one({"_id": ObjectId(photo_id)})
+
+    def delete_photo(self, photo_id):
+        print("delete photo: " + photo_id)
+        my_col = self.my_db["photos"]
+        result = my_col.delete_one({"_id": ObjectId(photo_id)})
+
     def create_project(self, project_json):
         print ("find from " + self.mongo_uri)
         my_col = self.my_db["projects"]

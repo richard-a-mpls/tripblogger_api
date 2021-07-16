@@ -15,7 +15,7 @@ class Project(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, profile_id: str=None, summary: str=None, description: str=None, location: str=None, published: bool=None, share_with: str=None, project_days: List[ProjectDay]=None):  # noqa: E501
+    def __init__(self, id: str=None, profile_id: str=None, summary: str=None, description: str=None, location: str=None, published: bool=None, showcase_photo_id: str=None, share_with: str=None, project_days: List[ProjectDay]=None):  # noqa: E501
         """Project - a model defined in Swagger
 
         :param id: The id of this Project.  # noqa: E501
@@ -30,6 +30,8 @@ class Project(Model):
         :type location: str
         :param published: The published of this Project.  # noqa: E501
         :type published: bool
+        :param showcase_photo_id: The showcase_photo_id of this Project.  # noqa: E501
+        :type showcase_photo_id: str
         :param share_with: The share_with of this Project.  # noqa: E501
         :type share_with: str
         :param project_days: The project_days of this Project.  # noqa: E501
@@ -42,6 +44,7 @@ class Project(Model):
             'description': str,
             'location': str,
             'published': bool,
+            'showcase_photo_id': str,
             'share_with': str,
             'project_days': List[ProjectDay]
         }
@@ -53,6 +56,7 @@ class Project(Model):
             'description': 'description',
             'location': 'location',
             'published': 'published',
+            'showcase_photo_id': 'showcase_photo_id',
             'share_with': 'share_with',
             'project_days': 'project_days'
         }
@@ -62,6 +66,7 @@ class Project(Model):
         self._description = description
         self._location = location
         self._published = published
+        self._showcase_photo_id = showcase_photo_id
         self._share_with = share_with
         self._project_days = project_days
 
@@ -201,6 +206,27 @@ class Project(Model):
         """
 
         self._published = published
+
+    @property
+    def showcase_photo_id(self) -> str:
+        """Gets the showcase_photo_id of this Project.
+
+
+        :return: The showcase_photo_id of this Project.
+        :rtype: str
+        """
+        return self._showcase_photo_id
+
+    @showcase_photo_id.setter
+    def showcase_photo_id(self, showcase_photo_id: str):
+        """Sets the showcase_photo_id of this Project.
+
+
+        :param showcase_photo_id: The showcase_photo_id of this Project.
+        :type showcase_photo_id: str
+        """
+
+        self._showcase_photo_id = showcase_photo_id
 
     @property
     def share_with(self) -> str:

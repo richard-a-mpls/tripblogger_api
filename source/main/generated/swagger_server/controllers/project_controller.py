@@ -70,9 +70,12 @@ def delete_project(project_id):  # noqa: E501
     project_to_delete = m_interface.get_project(project_id)
     print(project_to_delete["profile_id"])
     print(profile_id)
+
     if project_to_delete["profile_id"] != profile_id:
         print ("profile ID does not match")
         return {"status": 401, "reason": "Not Authorized"}
+    if project_to_delete["showcase_photo_id"] is not None:
+        m_interface.delete_photo(project_to_delete["showcase_photo_id"])
     m_interface.delete_project(project_id)
     return {"status": 200, "description": "Deleted " + project_id}
 
