@@ -40,7 +40,7 @@ class ProjectDay(Model):
         }
 
         self.attribute_map = {
-            'id': '_id',
+            'id': 'id',
             'summary': 'summary',
             'description': 'description',
             'location': 'location',

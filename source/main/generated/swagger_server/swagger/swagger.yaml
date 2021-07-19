@@ -197,6 +197,36 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.project_controller
+    patch:
+      tags:
+      - project
+      summary: update attributes of a project
+      operationId: patch_project
+      parameters:
+      - name: project_id
+        in: path
+        description: ID of project to patch
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.project_controller
   /projects/{project_id}:
     description: project operations
     get:
@@ -343,7 +373,7 @@ components:
         - summary: summary
           description: description
           location: location
-          _id: _id
+          id: id
           datestmp: datestmp
           photos:
           - photos
@@ -351,7 +381,7 @@ components:
         - summary: summary
           description: description
           location: location
-          _id: _id
+          id: id
           datestmp: datestmp
           photos:
           - photos
@@ -366,7 +396,7 @@ components:
     ProjectDay:
       type: object
       properties:
-        _id:
+        id:
           type: string
         summary:
           type: string
@@ -384,7 +414,7 @@ components:
         summary: summary
         description: description
         location: location
-        _id: _id
+        id: id
         datestmp: datestmp
         photos:
         - photos

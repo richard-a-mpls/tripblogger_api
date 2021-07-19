@@ -102,7 +102,6 @@ def get_session_projects():  # noqa: E501
 
     :rtype: List[Project]
     """
-
     profile_id = connexion.request.authorization["user_profile"]
     m_interface = MongoInterface()
     res_count, results = m_interface.get_projects(profile_id)
@@ -110,3 +109,23 @@ def get_session_projects():  # noqa: E501
     for res in results:
         resp_list.append(Project.from_dict(res))
     return resp_list
+
+def patch_project(body, project_id):  # noqa: E501
+    """update attributes of a project
+
+     # noqa: E501"""
+    profile_id = connexion.request.authorization["user_profile"]
+    m_interface = MongoInterface()
+    project_to_patch = m_interface.get_project(project_id)
+
+    if project_to_patch["profile_id"] != profile_id:
+        print ("profile ID does not match")
+        return {"status": 401, "reason": "Not Authorized"}
+
+    m_interface.patch_project(project_id, body)
+    return Project.from_dict(m_interface.get_project(project_id))
+
+
+
+
+
