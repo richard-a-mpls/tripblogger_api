@@ -141,7 +141,7 @@ class MongoInterface:
 
     def get_projects(self, profile_id):
         my_col = self.my_db["projects"]
-        my_list = my_col.find({ "profile_id": profile_id})
+        my_list = my_col.find({ "profile_id": profile_id}).sort('_id', pymongo.DESCENDING)
         my_results = list()
         for l in my_list:
             my_results.append(l)
