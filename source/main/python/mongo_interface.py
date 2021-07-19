@@ -151,6 +151,14 @@ class MongoInterface:
         my_col = self.my_db["projects"]
         return my_col.find_one({ "_id": ObjectId(project_id)})
 
+    def patch_project(self, project_id, attributes_json):
+        my_col = self.my_db["projects"]
+
+        filter = {"_id": ObjectId(project_id)}
+        new_values = {"$set": attributes_json}
+        my_col.update_one(filter, new_values)
+
+        return self.get_project(project_id)
 
     def __init__(self):
         myclient = pymongo.MongoClient("mongodb://mongo:27017/")

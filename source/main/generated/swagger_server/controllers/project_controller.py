@@ -4,6 +4,7 @@ from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.project import Project, ProjectDay  # noqa: E501
 from swagger_server import util
 import time
+import uuid
 
 
 def add_project(body):  # noqa: E501
@@ -24,7 +25,6 @@ def add_project(body):  # noqa: E501
         body.published = False
     if body.share_with is None:
         body.share_with = "private"
-    print("create project for " + body.profile_id + ":" + str(body))
 
     # Setup a placeholder project day
     current_date_str = time.strftime('%Y-%m-%d')
@@ -35,9 +35,11 @@ def add_project(body):  # noqa: E501
         project_day.description = body.description
         project_day.location = body.location
         project_day.datestmp = current_date_str
+        project_day.id = str(uuid.uuid4())
         body.project_days = [project_day]
     else:
         for pd in body.project_days:
+            pd.id = str(uuid.uuid4())
             if pd.summary is None:
                 pd.summary = body.summary
             if pd.description is None:
@@ -49,7 +51,6 @@ def add_project(body):  # noqa: E501
 
     m_interface = MongoInterface()
     response = m_interface.create_project(body.to_dict())
-    print("RESPO: " + str(response))
     return_project = Project.from_dict(response)
 
     # TODO - update swagger spec to add return object.
@@ -68,8 +69,6 @@ def delete_project(project_id):  # noqa: E501
     profile_id = connexion.request.authorization["user_profile"]
     m_interface = MongoInterface()
     project_to_delete = m_interface.get_project(project_id)
-    print(project_to_delete["profile_id"])
-    print(profile_id)
 
     if project_to_delete["profile_id"] != profile_id:
         print ("profile ID does not match")
@@ -90,7 +89,9 @@ def get_project(project_id):  # noqa: E501
 
     :rtype: Project
     """
-    return 'do some magic!'
+    m_interface = MongoInterface()
+    prj = m_interface.get_project(project_id)
+    return Project.from_dict(prj)
 
 
 def get_session_projects():  # noqa: E501
@@ -101,12 +102,30 @@ def get_session_projects():  # noqa: E501
 
     :rtype: List[Project]
     """
-
     profile_id = connexion.request.authorization["user_profile"]
     m_interface = MongoInterface()
     res_count, results = m_interface.get_projects(profile_id)
-    print ("found: " + str(res_count))
     resp_list = list()
     for res in results:
         resp_list.append(Project.from_dict(res))
     return resp_list
+
+def patch_project(body, project_id):  # noqa: E501
+    """update attributes of a project
+
+     # noqa: E501"""
+    profile_id = connexion.request.authorization["user_profile"]
+    m_interface = MongoInterface()
+    project_to_patch = m_interface.get_project(project_id)
+
+    if project_to_patch["profile_id"] != profile_id:
+        print ("profile ID does not match")
+        return {"status": 401, "reason": "Not Authorized"}
+
+    m_interface.patch_project(project_id, body)
+    return Project.from_dict(m_interface.get_project(project_id))
+
+
+
+
+

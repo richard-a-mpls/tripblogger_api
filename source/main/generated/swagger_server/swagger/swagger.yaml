@@ -197,6 +197,36 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.project_controller
+    patch:
+      tags:
+      - project
+      summary: update attributes of a project
+      operationId: patch_project
+      parameters:
+      - name: project_id
+        in: path
+        description: ID of project to patch
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.project_controller
   /projects/{project_id}:
     description: project operations
     get:
@@ -343,35 +373,19 @@ components:
         - summary: summary
           description: description
           location: location
-          _id: _id
+          id: id
           datestmp: datestmp
           photos:
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
+          - photos
+          - photos
         - summary: summary
           description: description
           location: location
-          _id: _id
+          id: id
           datestmp: datestmp
           photos:
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
-          - summary: summary
-            data: data
-            name: name
-            _id: _id
-            type: type
+          - photos
+          - photos
         showcase_photo_id: showcase_photo_id
         profile_id: profile_id
         description: description
@@ -382,7 +396,7 @@ components:
     ProjectDay:
       type: object
       properties:
-        _id:
+        id:
           type: string
         summary:
           type: string
@@ -395,24 +409,16 @@ components:
         photos:
           type: array
           items:
-            $ref: '#/components/schemas/Photo'
+            type: string
       example:
         summary: summary
         description: description
         location: location
-        _id: _id
+        id: id
         datestmp: datestmp
         photos:
-        - summary: summary
-          data: data
-          name: name
-          _id: _id
-          type: type
-        - summary: summary
-          data: data
-          name: name
-          _id: _id
-          type: type
+        - photos
+        - photos
     Photo:
       type: object
       properties:
@@ -426,12 +432,6 @@ components:
           type: string
         data:
           type: string
-      example:
-        summary: summary
-        data: data
-        name: name
-        _id: _id
-        type: type
     photos_body:
       type: object
       properties:
