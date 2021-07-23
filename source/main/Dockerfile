@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.6
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -13,6 +13,7 @@ RUN pip3 install flask-cors
 RUN pip3 install Unicode
 RUN pip3 install Unidecode
 RUN pip3 install pymongo
+RUN pip3 install Image
 
 COPY ./generated /usr/src/app
 
