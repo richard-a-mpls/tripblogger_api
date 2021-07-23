@@ -8,6 +8,9 @@ from swagger_server import util
 from bson.binary import Binary
 import imghdr
 
+from PIL import Image
+import math
+
 
 def add_photo(order_id=None, user_id=None, file_name=None):  # noqa: E501
     """upload a photo
@@ -31,7 +34,16 @@ def add_photo(order_id=None, user_id=None, file_name=None):  # noqa: E501
     photo = Photo()
     photo.name = uploaded_file.filename
     photo.type = imghdr.what(None, header)
-    photo.data = Binary(uploaded_file.stream.read())
+
+    img = Image.open(uploaded_file.stream)
+    x, y = img.size
+    x2, y2 = math.floor(x / 4), math.floor(y / 4)
+    img = img.resize((x2, y2), Image.ANTIALIAS)
+    byte_io = io.BytesIO()
+    img.save(byte_io, format='PNG', quality=50)
+    print ("storing image size: " + str(byte_io.getbuffer().nbytes/1024/1024) + " MB")
+    photo.data = Binary(byte_io.getvalue())
+
     m_interface = MongoInterface()
     inserted_id = m_interface.create_photo(photo.to_dict())
     #TODO, define proper return object and refactor.
