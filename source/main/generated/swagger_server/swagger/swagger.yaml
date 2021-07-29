@@ -164,10 +164,10 @@ paths:
       operationId: add_project
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Project'
-        required: true
+        required: false
       responses:
         "200":
           description: OK
@@ -432,6 +432,7 @@ components:
           type: string
         data:
           type: string
+          format: binary
     photos_body:
       type: object
       properties:
