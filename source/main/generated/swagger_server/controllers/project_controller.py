@@ -2,9 +2,15 @@ import connexion
 import six
 from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.project import Project, ProjectDay  # noqa: E501
+from swagger_server.models.photo import Photo
 from swagger_server import util
 import time
 import uuid
+from bson.binary import Binary
+import imghdr
+import io
+from PIL import Image
+import math
 
 
 def add_project(body):  # noqa: E501
@@ -12,14 +18,29 @@ def add_project(body):  # noqa: E501
 
     create a project # noqa: E501
 
-    :param body: 
-    :type body: dict | bytes
+    :param id: 
+    :type id: str
+    :param profile_id: 
+    :type profile_id: str
+    :param summary: 
+    :type summary: str
+    :param description: 
+    :type description: str
+    :param location: 
+    :type location: str
+    :param published: 
+    :type published: bool
+    :param showcase_photo: 
+    :type showcase_photo: dict | bytes
+    :param share_with: 
+    :type share_with: str
+    :param project_days: 
+    :type project_days: list | bytes
 
     :rtype: None
     """
-    if connexion.request.is_json:
-        body = Project.from_dict(connexion.request.get_json())  # noqa: E501
 
+    body = Project.from_dict(body)
     body.profile_id=connexion.request.authorization["user_profile"]
     if body.published is None:
         body.published = False
@@ -36,7 +57,7 @@ def add_project(body):  # noqa: E501
         project_day.location = body.location
         project_day.datestmp = current_date_str
         project_day.id = str(uuid.uuid4())
-        body.project_days = [project_day]
+        project_days = [project_day]
     else:
         for pd in body.project_days:
             pd.id = str(uuid.uuid4())
@@ -48,6 +69,24 @@ def add_project(body):  # noqa: E501
                 pd.location = body.location
             if pd.datestmp is None:
                 pd._date = current_date_str
+
+
+    uploaded_file = connexion.request.files['file']
+    header = uploaded_file.stream.read(512)
+    uploaded_file.stream.seek(0)
+    photo = Photo()
+    photo.name = uploaded_file.filename
+    photo.type = imghdr.what(None, header)
+    img = Image.open(uploaded_file.stream)
+    x, y = img.size
+    x2, y2 = math.floor(x / 4), math.floor(y / 4)
+    img = img.resize((x2, y2), Image.ANTIALIAS)
+    byte_io = io.BytesIO()
+    img.save(byte_io, format='PNG', quality=50)
+    print ("storing image size: " + str(byte_io.getbuffer().nbytes/1024/1024) + " MB")
+    photo.data = Binary(byte_io.getvalue())
+
+    body.showcase_photo = photo
 
     m_interface = MongoInterface()
     response = m_interface.create_project(body.to_dict())

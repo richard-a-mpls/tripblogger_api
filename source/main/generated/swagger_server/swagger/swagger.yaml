@@ -164,10 +164,10 @@ paths:
       operationId: add_project
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Project'
-        required: true
+        required: false
       responses:
         "200":
           description: OK
@@ -355,8 +355,8 @@ components:
           type: string
         published:
           type: boolean
-        showcase_photo_id:
-          type: string
+        showcase_photo:
+          $ref: '#/components/schemas/Photo'
         share_with:
           type: string
           enum:
@@ -386,11 +386,16 @@ components:
           photos:
           - photos
           - photos
-        showcase_photo_id: showcase_photo_id
         profile_id: profile_id
         description: description
         share_with: private
         location: location
+        showcase_photo:
+          summary: summary
+          data: ""
+          name: name
+          _id: _id
+          type: type
         _id: _id
         published: true
     ProjectDay:
@@ -432,6 +437,13 @@ components:
           type: string
         data:
           type: string
+          format: binary
+      example:
+        summary: summary
+        data: ""
+        name: name
+        _id: _id
+        type: type
     photos_body:
       type: object
       properties:
