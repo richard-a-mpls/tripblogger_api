@@ -30,8 +30,8 @@ def add_project(body):  # noqa: E501
     :type location: str
     :param published: 
     :type published: bool
-    :param showcase_photo: 
-    :type showcase_photo: dict | bytes
+    :param showcase_photo_id: 
+    :type showcase_photo_id: str
     :param share_with: 
     :type share_with: str
     :param project_days: 
@@ -86,9 +86,10 @@ def add_project(body):  # noqa: E501
     print ("storing image size: " + str(byte_io.getbuffer().nbytes/1024/1024) + " MB")
     photo.data = Binary(byte_io.getvalue())
 
-    body.showcase_photo = photo
-
     m_interface = MongoInterface()
+    created_id = m_interface.create_photo(photo.to_dict())
+    body.showcase_photo_id = created_id
+
     response = m_interface.create_project(body.to_dict())
     return_project = Project.from_dict(response)
 

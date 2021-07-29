@@ -355,8 +355,8 @@ components:
           type: string
         published:
           type: boolean
-        showcase_photo:
-          $ref: '#/components/schemas/Photo'
+        showcase_photo_id:
+          type: string
         share_with:
           type: string
           enum:
@@ -386,16 +386,11 @@ components:
           photos:
           - photos
           - photos
+        showcase_photo_id: showcase_photo_id
         profile_id: profile_id
         description: description
         share_with: private
         location: location
-        showcase_photo:
-          summary: summary
-          data: ""
-          name: name
-          _id: _id
-          type: type
         _id: _id
         published: true
     ProjectDay:
@@ -438,12 +433,6 @@ components:
         data:
           type: string
           format: binary
-      example:
-        summary: summary
-        data: ""
-        name: name
-        _id: _id
-        type: type
     photos_body:
       type: object
       properties:

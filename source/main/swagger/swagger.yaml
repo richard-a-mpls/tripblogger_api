@@ -332,8 +332,8 @@ components:
           type: "string"
         published:
           type: "boolean"
-        showcase_photo:
-          $ref: "#/components/schemas/Photo"
+        showcase_photo_id:
+          type: "string"
         share_with:
           type: "string"
           enum:
