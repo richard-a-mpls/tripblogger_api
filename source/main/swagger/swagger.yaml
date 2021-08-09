@@ -135,12 +135,11 @@ paths:
       security:
         - BearerAuth: [ ]
       requestBody:
-        required: false
+        required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
               $ref: '#/components/schemas/Project'
-              x-codegen-request-body-name: body
       responses:
         '200':
           description: OK
@@ -333,6 +332,8 @@ components:
         published:
           type: "boolean"
         showcase_photo_id:
+          type: "string"
+        datestmp:
           type: "string"
         share_with:
           type: "string"

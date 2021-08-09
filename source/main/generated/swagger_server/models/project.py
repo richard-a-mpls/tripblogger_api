@@ -6,7 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
-from swagger_server.models.photo import Photo  # noqa: F401,E501
 from swagger_server.models.project_day import ProjectDay  # noqa: F401,E501
 from swagger_server import util
 
@@ -16,7 +15,7 @@ class Project(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, profile_id: str=None, summary: str=None, description: str=None, location: str=None, published: bool=None, showcase_photo_id: str=None, share_with: str=None, project_days: List[ProjectDay]=None):  # noqa: E501
+    def __init__(self, id: str=None, profile_id: str=None, summary: str=None, description: str=None, location: str=None, published: bool=None, showcase_photo_id: str=None, datestmp: str=None, share_with: str=None, project_days: List[ProjectDay]=None):  # noqa: E501
         """Project - a model defined in Swagger
 
         :param id: The id of this Project.  # noqa: E501
@@ -33,6 +32,8 @@ class Project(Model):
         :type published: bool
         :param showcase_photo_id: The showcase_photo_id of this Project.  # noqa: E501
         :type showcase_photo_id: str
+        :param datestmp: The datestmp of this Project.  # noqa: E501
+        :type datestmp: str
         :param share_with: The share_with of this Project.  # noqa: E501
         :type share_with: str
         :param project_days: The project_days of this Project.  # noqa: E501
@@ -46,6 +47,7 @@ class Project(Model):
             'location': str,
             'published': bool,
             'showcase_photo_id': str,
+            'datestmp': str,
             'share_with': str,
             'project_days': List[ProjectDay]
         }
@@ -58,6 +60,7 @@ class Project(Model):
             'location': 'location',
             'published': 'published',
             'showcase_photo_id': 'showcase_photo_id',
+            'datestmp': 'datestmp',
             'share_with': 'share_with',
             'project_days': 'project_days'
         }
@@ -68,6 +71,7 @@ class Project(Model):
         self._location = location
         self._published = published
         self._showcase_photo_id = showcase_photo_id
+        self._datestmp = datestmp
         self._share_with = share_with
         self._project_days = project_days
 
@@ -228,6 +232,27 @@ class Project(Model):
         """
 
         self._showcase_photo_id = showcase_photo_id
+
+    @property
+    def datestmp(self) -> str:
+        """Gets the datestmp of this Project.
+
+
+        :return: The datestmp of this Project.
+        :rtype: str
+        """
+        return self._datestmp
+
+    @datestmp.setter
+    def datestmp(self, datestmp: str):
+        """Sets the datestmp of this Project.
+
+
+        :param datestmp: The datestmp of this Project.
+        :type datestmp: str
+        """
+
+        self._datestmp = datestmp
 
     @property
     def share_with(self) -> str:
