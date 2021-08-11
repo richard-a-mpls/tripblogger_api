@@ -28,3 +28,4 @@
 **/profile_controller.py
 **/project_controller.py
 **/photo_controller.py
+**/project_photo_controller.py
