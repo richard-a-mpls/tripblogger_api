@@ -174,6 +174,34 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.project_controller
+  /me/projects/{project_id}/photos:
+    description: add photos to a project
+    post:
+      tags:
+      - project_photo
+      summary: upload a photo to your project.
+      description: upload a photo to your project
+      operationId: add_project_photo
+      parameters:
+      - name: project_id
+        in: path
+        description: ID of project to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/project_id_photos_body'
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.project_photo_controller
   /me/projects/{project_id}:
     description: project operations for an individual session
     delete:
@@ -357,6 +385,10 @@ components:
           type: boolean
         showcase_photo_id:
           type: string
+        photo_array:
+          type: array
+          items:
+            type: string
         datestmp:
           type: string
         share_with:
@@ -391,6 +423,9 @@ components:
         showcase_photo_id: showcase_photo_id
         profile_id: profile_id
         description: description
+        photo_array:
+        - photo_array
+        - photo_array
         share_with: private
         location: location
         _id: _id
@@ -434,6 +469,12 @@ components:
         type:
           type: string
         data:
+          type: string
+          format: binary
+    project_id_photos_body:
+      type: object
+      properties:
+        fileName:
           type: string
           format: binary
     photos_body:

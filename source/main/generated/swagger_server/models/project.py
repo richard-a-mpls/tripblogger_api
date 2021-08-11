@@ -15,7 +15,7 @@ class Project(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, profile_id: str=None, summary: str=None, description: str=None, location: str=None, published: bool=None, showcase_photo_id: str=None, datestmp: str=None, share_with: str=None, project_days: List[ProjectDay]=None):  # noqa: E501
+    def __init__(self, id: str=None, profile_id: str=None, summary: str=None, description: str=None, location: str=None, published: bool=None, showcase_photo_id: str=None, photo_array: List[str]=None, datestmp: str=None, share_with: str=None, project_days: List[ProjectDay]=None):  # noqa: E501
         """Project - a model defined in Swagger
 
         :param id: The id of this Project.  # noqa: E501
@@ -32,6 +32,8 @@ class Project(Model):
         :type published: bool
         :param showcase_photo_id: The showcase_photo_id of this Project.  # noqa: E501
         :type showcase_photo_id: str
+        :param photo_array: The photo_array of this Project.  # noqa: E501
+        :type photo_array: List[str]
         :param datestmp: The datestmp of this Project.  # noqa: E501
         :type datestmp: str
         :param share_with: The share_with of this Project.  # noqa: E501
@@ -47,6 +49,7 @@ class Project(Model):
             'location': str,
             'published': bool,
             'showcase_photo_id': str,
+            'photo_array': List[str],
             'datestmp': str,
             'share_with': str,
             'project_days': List[ProjectDay]
@@ -60,6 +63,7 @@ class Project(Model):
             'location': 'location',
             'published': 'published',
             'showcase_photo_id': 'showcase_photo_id',
+            'photo_array': 'photo_array',
             'datestmp': 'datestmp',
             'share_with': 'share_with',
             'project_days': 'project_days'
@@ -71,6 +75,7 @@ class Project(Model):
         self._location = location
         self._published = published
         self._showcase_photo_id = showcase_photo_id
+        self._photo_array = photo_array
         self._datestmp = datestmp
         self._share_with = share_with
         self._project_days = project_days
@@ -232,6 +237,27 @@ class Project(Model):
         """
 
         self._showcase_photo_id = showcase_photo_id
+
+    @property
+    def photo_array(self) -> List[str]:
+        """Gets the photo_array of this Project.
+
+
+        :return: The photo_array of this Project.
+        :rtype: List[str]
+        """
+        return self._photo_array
+
+    @photo_array.setter
+    def photo_array(self, photo_array: List[str]):
+        """Sets the photo_array of this Project.
+
+
+        :param photo_array: The photo_array of this Project.
+        :type photo_array: List[str]
+        """
+
+        self._photo_array = photo_array
 
     @property
     def datestmp(self) -> str:
