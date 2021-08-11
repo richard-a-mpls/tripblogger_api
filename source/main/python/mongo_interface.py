@@ -160,6 +160,10 @@ class MongoInterface:
 
         return self.get_project(project_id)
 
+    def append_project_photo(self, project_id, photo_id):
+        my_col = self.my_db["projects"]
+        my_col.update({"_id": ObjectId(project_id)}, {'$push': {'photo_array': photo_id}})
+
     def __init__(self):
         myclient = pymongo.MongoClient("mongodb://mongo:27017/")
         self.my_db = myclient["mydatabase"]
