@@ -47,6 +47,9 @@ def add_project(body):  # noqa: E501
     if body.share_with is None:
         body.share_with = "private"
 
+    if body.photo_array is None:
+        body.photo_array = []
+
     m_interface = MongoInterface()
     response = m_interface.create_project(body.to_dict())
     return_project = Project.from_dict(response)
