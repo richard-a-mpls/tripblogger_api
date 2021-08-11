@@ -1,13 +1,6 @@
 import connexion
-import six
 from swagger_server.extensions.mongo_interface import MongoInterface
-from swagger_server import util
-from bson.binary import Binary
-import imghdr
-from swagger_server.models.photo import Photo
-from PIL import Image
-import math
-import io
+from swagger_server.utilities.file_transformation import FileTransformation
 
 
 def add_project_photo(project_id, file_name=None):  # noqa: E501
@@ -33,21 +26,12 @@ def add_project_photo(project_id, file_name=None):  # noqa: E501
 
     uploaded_file = connexion.request.files['file']
 
+
+    file_transform = FileTransformation()
+    photo = file_transform.transform(uploaded_file)
+
     header = uploaded_file.stream.read(512)
     uploaded_file.stream.seek(0)
-
-    photo = Photo()
-    photo.name = uploaded_file.filename
-    photo.type = imghdr.what(None, header)
-
-    img = Image.open(uploaded_file.stream)
-    x, y = img.size
-    x2, y2 = math.floor(x / 4), math.floor(y / 4)
-    img = img.resize((x2, y2), Image.ANTIALIAS)
-    byte_io = io.BytesIO()
-    img.save(byte_io, format='PNG', quality=50)
-    print ("storing image size: " + str(byte_io.getbuffer().nbytes/1024/1024) + " MB")
-    photo.data = Binary(byte_io.getvalue())
 
     m_interface = MongoInterface()
     inserted_id = m_interface.create_photo(photo.to_dict())
