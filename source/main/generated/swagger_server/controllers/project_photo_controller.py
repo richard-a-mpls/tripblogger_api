@@ -16,7 +16,7 @@ def add_project_photo(project_id, file_name=None):  # noqa: E501
     :rtype: None
     """
 
-    user_profile = connexion.request.authorization["user_profile"]
+    user_profile = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
     project = m_interface.get_project(project_id)
 

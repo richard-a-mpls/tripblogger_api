@@ -43,7 +43,7 @@ def get_session_profile():  # noqa: E501
 
     :rtype: Profile
     """
-    response = get_profile(connexion.request.authorization["user_profile"])
+    response = get_profile(connexion.request.authorization["profile_id"])
     return_profile = Profile.from_dict(response)
     return return_profile
 
@@ -60,7 +60,7 @@ def patch_profile(body, profile_id):  # noqa: E501
 
     :rtype: Profile
     """
-    authenticated_id = connexion.request.authorization["user_profile"]
+    authenticated_id = connexion.request.authorization["profile_id"]
     if authenticated_id != profile_id:
         return {
             "detail": "Not authorized to modify this object",

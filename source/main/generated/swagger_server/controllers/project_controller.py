@@ -41,7 +41,7 @@ def add_project(body):  # noqa: E501
     """
 
     body = Project.from_dict(body)
-    body.profile_id=connexion.request.authorization["user_profile"]
+    body.profile_id=connexion.request.authorization["profile_id"]
     if body.published is None:
         body.published = False
     if body.share_with is None:
@@ -67,7 +67,7 @@ def delete_project(project_id):  # noqa: E501
 
     :rtype: None
     """
-    profile_id = connexion.request.authorization["user_profile"]
+    profile_id = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
     project_to_delete = m_interface.get_project(project_id)
 
@@ -103,7 +103,7 @@ def get_session_projects():  # noqa: E501
 
     :rtype: List[Project]
     """
-    profile_id = connexion.request.authorization["user_profile"]
+    profile_id = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
     res_count, results = m_interface.get_projects(profile_id)
     resp_list = list()
@@ -115,7 +115,7 @@ def patch_project(body, project_id):  # noqa: E501
     """update attributes of a project
 
      # noqa: E501"""
-    profile_id = connexion.request.authorization["user_profile"]
+    profile_id = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
     project_to_patch = m_interface.get_project(project_id)
 

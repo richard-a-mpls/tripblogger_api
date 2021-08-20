@@ -14,6 +14,7 @@ RUN pip3 install Unicode
 RUN pip3 install Unidecode
 RUN pip3 install pymongo
 RUN pip3 install Image
+RUN pip3 install pyjwt
 
 COPY ./generated /usr/src/app
 
