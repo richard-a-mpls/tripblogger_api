@@ -1,8 +1,8 @@
 
 import requests
+import jwt
 import os
 import time
-import uuid
 from swagger_server.extensions.mongo_interface import MongoInterface
 
 class AuthorizationExtensions:
@@ -11,22 +11,13 @@ class AuthorizationExtensions:
     user_details_url = "https://graph.facebook.com/{}?fields=id,name,email&access_token={}"
 
     def process_authentication(self, graph_domain, token):
-
         check_token_response = self.check_token(token)
         if not check_token_response:
             print ("check token response returned False")
             return False
 
         m_interface = MongoInterface()
-        # first see if a session already exists for this token
-        api_session = m_interface.find_token_session(token, graph_domain)
-        if api_session is not None:
-            print ("Api session found, let's return it" + str(api_session))
-            return str(api_session["api_token"])
-
-        print ("Api session not found, let's create one based on user details")
         user_details_json = self.get_user_details(check_token_response['user_id'], token)
-
         # TODO need to auto create profile if one isn't already in, and associate to session
         found_profile = m_interface.get_profile_by_identity("fb", user_details_json["id"])
         if found_profile is None:
@@ -36,23 +27,14 @@ class AuthorizationExtensions:
                 "identity_issuer": graph_domain,
                 "profile_name": user_details_json["name"]
             }
-            print("post to mongo")
-            inserted_id = m_interface.create_profile(profile_json)
-            print("inserted_id: " + str(inserted_id))
+            m_interface.create_profile(profile_json)
             found_profile = m_interface.get_profile_by_identity(graph_domain, user_details_json["id"])
-            print("inserted profile: " + str(found_profile))
 
 
-        session_json = {"identity_token": token,
-                        "identity_issuer": graph_domain,
-                        "api_token": str(uuid.uuid4()),
-                        "api_token_expiration": int(time.time())*100000,
-                        "user_profile": str(found_profile["_id"])
-                        }
 
-        inserted_id = m_interface.create_session(session_json)
-        print ("created new api session with id: " + str(inserted_id) + " api_token of " + str(session_json["api_token"]))
-        return str(session_json["api_token"])
+        jwt_contents = {"profile_id": str(found_profile["_id"]), "profile_name": found_profile["profile_name"], "expires": int(time.time())*100000}
+        encoded_jwt = jwt.encode(jwt_contents, os.environ["jwt_secret"], algorithm="HS256")
+        return encoded_jwt
 
     def check_token(self, token):
         response = requests.get(self.get_fb_token_url(token));
