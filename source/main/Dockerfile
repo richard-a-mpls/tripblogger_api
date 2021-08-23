@@ -15,6 +15,8 @@ RUN pip3 install Unidecode
 RUN pip3 install pymongo
 RUN pip3 install Image
 RUN pip3 install pyjwt
+RUN pip3 install cryptography
+RUN pip3 install requests
 
 COPY ./generated /usr/src/app
 
