@@ -45,7 +45,7 @@ def get_public_key(token):
 
 def validate_jwt(jwt_to_validate):
     public_key = get_public_key(jwt_to_validate)
-    time.sleep(.2) # we seem to be 1 ms ahead of the iat and nbf timestamps
+    time.sleep(.5) # we seem to be 1 ms ahead of the iat and nbf timestamps
     decoded = jwt.decode(jwt_to_validate,
                          public_key,
                          verify=True,
