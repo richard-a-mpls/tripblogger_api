@@ -80,5 +80,6 @@ def patch_profile(body, profile_id):  # noqa: E501
 
     if persist_changes:
         m_interface = MongoInterface()
-        return_profile = Profile().from_dict(m_interface.patch_profile(profile_id, set_values))
-    return return_profile
+        m_interface.patch_profile(profile_id, set_values)
+
+    return get_session_profile()
