@@ -45,16 +45,23 @@ def get_public_key(token):
 
 def validate_jwt(jwt_to_validate):
     public_key = get_public_key(jwt_to_validate)
-    time.sleep(.5) # we seem to be 1 ms ahead of the iat and nbf timestamps
+    #TODO need to work around the need for this sleep.
+    #time.sleep(1) # we seem to be 1 ms ahead of the iat and nbf timestamps
     decoded = jwt.decode(jwt_to_validate,
                          public_key,
                          verify=True,
                          algorithms=['RS256'],
                          audience=valid_audiences,
-                         issuer=issuer)
+                         issuer=issuer,
+                         options={"verify_nbf": False})
 
     # do what you wish with decoded token:
     # if we get here, the JWT is validated
+    current_time = time.time()-5
+
+    if current_time > decoded["nbf"]:
+        raise "Token NBF is too early"
+
     print(decoded)
     return decoded
 
