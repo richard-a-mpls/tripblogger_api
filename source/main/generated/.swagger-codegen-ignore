@@ -29,3 +29,4 @@
 **/project_controller.py
 **/photo_controller.py
 **/project_photo_controller.py
+**/published_project_controller.py

@@ -147,6 +147,18 @@ class MongoInterface:
             my_results.append(l)
         return my_list.count(), my_results
 
+    def get_published_projects(self, share_status, profile_id):
+        my_col = self.my_db["projects"]
+        query = { "published": True, "share_with": share_status}
+        if profile_id is not None:
+            query["profile_id"] = {"$ne": profile_id}
+        print (query)
+        my_list = my_col.find(query)
+        my_results = list()
+        for l in my_list:
+            my_results.append(l)
+        return my_list.count(), my_results
+
     def get_project(self, project_id):
         my_col = self.my_db["projects"]
         return my_col.find_one({ "_id": ObjectId(project_id)})
