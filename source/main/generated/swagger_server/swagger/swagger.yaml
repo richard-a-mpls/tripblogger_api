@@ -136,6 +136,46 @@ paths:
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.profile_controller
+  /public/projects:
+    description: published project related calls
+    get:
+      tags:
+      - published_project
+      summary: get published projects
+      operationId: get_public_projects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+                x-content-type: application/json
+      security:
+      - OptionalBearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.published_project_controller
+  /connections/projects:
+    description: published project related calls
+    get:
+      tags:
+      - published_project
+      summary: get published projects
+      operationId: get_connection_projects
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+                x-content-type: application/json
+      security:
+      - BearerAuth: []
+      x-openapi-router-controller: swagger_server.controllers.published_project_controller
   /me/projects:
     description: project related calls
     get:
@@ -492,4 +532,8 @@ components:
       type: http
       scheme: bearer
       x-bearerInfoFunc: swagger_server.controllers.authorization_controller.check_BearerAuth
+    OptionalBearerAuth:
+      type: http
+      scheme: bearer
+      x-bearerInfoFunc: swagger_server.controllers.authorization_controller.check_OptionalBearerAuth
 

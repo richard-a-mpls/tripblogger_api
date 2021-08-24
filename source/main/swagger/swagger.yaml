@@ -124,6 +124,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Profile"
+
+  /public/projects:
+    description: "published project related calls"
+    get:
+      tags:
+        - "published_project"
+      summary: "get published projects"
+      operationId: "getPublicProjects"
+      security:
+        - OptionalBearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Project"
+  /connections/projects:
+    description: "published project related calls"
+    get:
+      tags:
+        - "published_project"
+      summary: "get published projects"
+      operationId: "getConnectionProjects"
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Project"
+
+
+
   /me/projects:
     description: "project related calls"
     post:
@@ -415,6 +455,9 @@ components:
 
   securitySchemes:
     BearerAuth:
+      type: http
+      scheme: bearer
+    OptionalBearerAuth:
       type: http
       scheme: bearer
 security:
