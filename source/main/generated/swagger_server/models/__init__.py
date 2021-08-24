@@ -10,3 +10,4 @@ from swagger_server.models.photos_body import PhotosBody
 from swagger_server.models.profile import Profile
 from swagger_server.models.project import Project
 from swagger_server.models.project_day import ProjectDay
+from swagger_server.models.project_id_photos_body import ProjectIdPhotosBody

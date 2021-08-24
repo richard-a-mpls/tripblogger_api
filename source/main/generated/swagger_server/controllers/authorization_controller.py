@@ -8,14 +8,23 @@ controller generated to handled auth operation described at:
 https://connexion.readthedocs.io/en/latest/security.html
 """
 def check_BearerAuth(token):
-
-    # TODO - validation should be done via the mongo held api_token via m_interface.get_session_by_api_token
     decoded_jwt = jwt.decode(token, os.environ["jwt_secret"], algorithms=["HS256"])
     if int(time.time()) > decoded_jwt["expires"]:
         print ("JWT has expired")
-        ## TODO - should remove the API session from mongo
         return None
     connexion.request.authorization = decoded_jwt
     return decoded_jwt
 
-
+def check_OptionalBearerAuth(token):
+    # in this case, it's ok if the user isn't authenticated, but if they are
+    # we need to knwo who they are.
+    try:
+        decoded_jwt = jwt.decode(token, os.environ["jwt_secret"], algorithms=["HS256"])
+        if int(time.time()) > decoded_jwt["expires"]:
+            print ("JWT has expired")
+            return None
+        connexion.request.authorization = decoded_jwt
+        return decoded_jwt
+    except:
+        print ("user not authenticated which is ok")
+        return {}
