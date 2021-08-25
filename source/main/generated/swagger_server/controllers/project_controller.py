@@ -45,7 +45,7 @@ def add_project(body):  # noqa: E501
     if body.published is None:
         body.published = False
     if body.share_with is None:
-        body.share_with = "private"
+        body.share_with = "public"
 
     if body.photo_array is None:
         body.photo_array = []
