@@ -351,8 +351,6 @@ components:
   schemas:
     Profile:
       type: object
-      required:
-        - profile_name
       properties:
         _id:
           type: "string"
@@ -361,6 +359,8 @@ components:
         identity_issuer:
           type: "string"
         identity_id:
+          type: "string"
+        profile_img:
           type: "string"
         connections:
           type: "array"

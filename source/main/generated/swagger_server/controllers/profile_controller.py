@@ -78,6 +78,11 @@ def patch_profile(body, profile_id):  # noqa: E501
         set_values['profile_name'] = body.profile_name
         persist_changes = True
 
+    if body.profile_img is not None:
+        set_values['profile_img'] = body.profile_img
+        persist_changes = True
+
+
     if persist_changes:
         m_interface = MongoInterface()
         m_interface.patch_profile(profile_id, set_values)

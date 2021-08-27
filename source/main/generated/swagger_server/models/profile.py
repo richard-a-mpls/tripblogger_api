@@ -14,7 +14,7 @@ class Profile(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, id: str=None, profile_name: str=None, identity_issuer: str=None, identity_id: str=None, connections: List[str]=None):  # noqa: E501
+    def __init__(self, id: str=None, profile_name: str=None, identity_issuer: str=None, identity_id: str=None, profile_img: str=None, connections: List[str]=None):  # noqa: E501
         """Profile - a model defined in Swagger
 
         :param id: The id of this Profile.  # noqa: E501
@@ -25,6 +25,8 @@ class Profile(Model):
         :type identity_issuer: str
         :param identity_id: The identity_id of this Profile.  # noqa: E501
         :type identity_id: str
+        :param profile_img: The profile_img of this Profile.  # noqa: E501
+        :type profile_img: str
         :param connections: The connections of this Profile.  # noqa: E501
         :type connections: List[str]
         """
@@ -33,6 +35,7 @@ class Profile(Model):
             'profile_name': str,
             'identity_issuer': str,
             'identity_id': str,
+            'profile_img': str,
             'connections': List[str]
         }
 
@@ -41,12 +44,14 @@ class Profile(Model):
             'profile_name': 'profile_name',
             'identity_issuer': 'identity_issuer',
             'identity_id': 'identity_id',
+            'profile_img': 'profile_img',
             'connections': 'connections'
         }
         self._id = id
         self._profile_name = profile_name
         self._identity_issuer = identity_issuer
         self._identity_id = identity_id
+        self._profile_img = profile_img
         self._connections = connections
 
     @classmethod
@@ -99,8 +104,6 @@ class Profile(Model):
         :param profile_name: The profile_name of this Profile.
         :type profile_name: str
         """
-        if profile_name is None:
-            raise ValueError("Invalid value for `profile_name`, must not be `None`")  # noqa: E501
 
         self._profile_name = profile_name
 
@@ -145,6 +148,27 @@ class Profile(Model):
         """
 
         self._identity_id = identity_id
+
+    @property
+    def profile_img(self) -> str:
+        """Gets the profile_img of this Profile.
+
+
+        :return: The profile_img of this Profile.
+        :rtype: str
+        """
+        return self._profile_img
+
+    @profile_img.setter
+    def profile_img(self, profile_img: str):
+        """Sets the profile_img of this Profile.
+
+
+        :param profile_img: The profile_img of this Profile.
+        :type profile_img: str
+        """
+
+        self._profile_img = profile_img
 
     @property
     def connections(self) -> List[str]:

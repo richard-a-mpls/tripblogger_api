@@ -364,8 +364,6 @@ paths:
 components:
   schemas:
     Profile:
-      required:
-      - profile_name
       type: object
       properties:
         _id:
@@ -376,12 +374,15 @@ components:
           type: string
         identity_id:
           type: string
+        profile_img:
+          type: string
         connections:
           type: array
           items:
             type: string
       example:
         profile_name: profile_name
+        profile_img: profile_img
         identity_id: identity_id
         identity_issuer: identity_issuer
         _id: _id
