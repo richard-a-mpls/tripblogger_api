@@ -1,8 +1,8 @@
 import connexion
 import six
 from swagger_server.extensions.mongo_interface import MongoInterface
-from swagger_server.models.project import Project, ProjectDay  # noqa: E501
-from swagger_server.models.photo import Photo
+from swagger_server.models.project import Project  # noqa: E501
+from swagger_server.models.public_profile import PublicProfile  # noqa: E501
 from swagger_server import util
 import time
 import uuid
@@ -18,23 +18,23 @@ def add_project(body):  # noqa: E501
 
     create a project # noqa: E501
 
-    :param id: 
+    :param id:
     :type id: str
-    :param profile_id: 
+    :param profile_id:
     :type profile_id: str
-    :param summary: 
+    :param summary:
     :type summary: str
-    :param description: 
+    :param description:
     :type description: str
-    :param location: 
+    :param location:
     :type location: str
-    :param published: 
+    :param published:
     :type published: bool
-    :param showcase_photo_id: 
+    :param showcase_photo_id:
     :type showcase_photo_id: str
-    :param share_with: 
+    :param share_with:
     :type share_with: str
-    :param project_days: 
+    :param project_days:
     :type project_days: list | bytes
 
     :rtype: None
@@ -93,6 +93,26 @@ def get_project(project_id):  # noqa: E501
     m_interface = MongoInterface()
     prj = m_interface.get_project(project_id)
     return Project.from_dict(prj)
+
+
+def get_project_profile(project_id):  # noqa: E501
+    """get a project owners public profile
+
+    get a project owners public profile # noqa: E501
+
+    :param project_id: ID of the project to lookup
+    :type project_id: str
+
+    :rtype: PublicProfile
+    """
+
+    m_interface = MongoInterface()
+
+    project = Project.from_dict(m_interface.get_project(project_id))
+    if project.published and project.share_with == "public":
+        results = m_interface.get_profile_by_id(project.profile_id)
+        return PublicProfile.from_dict(results)
+    return {"error": "unable to lookup owner"}
 
 
 def get_session_projects():  # noqa: E501
