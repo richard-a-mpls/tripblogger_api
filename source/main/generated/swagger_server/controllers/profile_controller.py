@@ -63,14 +63,6 @@ def patch_profile(body, profile_id):  # noqa: E501
 
     :rtype: Profile
     """
-    authenticated_id = connexion.request.authorization["profile_id"]
-    if authenticated_id != profile_id:
-        return {
-            "detail": "Not authorized to modify this object",
-            "status": "401",
-            "title": "Unauthorized",
-            "type": "about:blank"
-        }
 
     if connexion.request.is_json:
         body = Profile.from_dict(connexion.request.get_json())  # noqa: E501
@@ -85,9 +77,9 @@ def patch_profile(body, profile_id):  # noqa: E501
         set_values['profile_img'] = body.profile_img
         persist_changes = True
 
-
+    current_profile = get_session_profile()
     if persist_changes:
         m_interface = MongoInterface()
-        m_interface.patch_profile(profile_id, set_values)
+        m_interface.patch_profile(current_profile.id, set_values)
 
     return get_session_profile()

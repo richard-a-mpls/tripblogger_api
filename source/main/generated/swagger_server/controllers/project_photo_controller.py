@@ -16,11 +16,14 @@ def add_project_photo(project_id, file_name=None):  # noqa: E501
     :rtype: None
     """
 
-    user_profile = connexion.request.authorization["profile_id"]
+    m_interface = MongoInterface()
+    auth = connexion.request.authorization
+    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
+
     m_interface = MongoInterface()
     project = m_interface.get_project(project_id)
 
-    if project["profile_id"] != user_profile:
+    if project["profile_id"] != profile_id:
         print ("profile ID does not match")
         return {"status": 401, "reason": "Not Authorized"}
 
