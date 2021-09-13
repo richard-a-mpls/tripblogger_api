@@ -36,15 +36,18 @@ def get_profile(profile_id):  # noqa: E501
 
 
 def get_session_profile():  # noqa: E501
-    """get a profile based on authorized session
-
-     # noqa: E501
-
-
-    :rtype: Profile
-    """
-    response = get_profile(connexion.request.authorization["profile_id"])
-    return_profile = Profile.from_dict(response)
+    m_interface = MongoInterface()
+    auth = connexion.request.authorization
+    profile = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])
+    if profile is None:
+        profile_json = {
+            "identity_id": auth["sub"],
+            "identity_issuer": auth["iss"],
+            "profile_name": auth["name"]
+        }
+        m_interface.create_profile(profile_json)
+        profile = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])
+    return_profile = Profile.from_dict(profile)
     return return_profile
 
 
@@ -60,14 +63,6 @@ def patch_profile(body, profile_id):  # noqa: E501
 
     :rtype: Profile
     """
-    authenticated_id = connexion.request.authorization["profile_id"]
-    if authenticated_id != profile_id:
-        return {
-            "detail": "Not authorized to modify this object",
-            "status": "401",
-            "title": "Unauthorized",
-            "type": "about:blank"
-        }
 
     if connexion.request.is_json:
         body = Profile.from_dict(connexion.request.get_json())  # noqa: E501
@@ -82,9 +77,9 @@ def patch_profile(body, profile_id):  # noqa: E501
         set_values['profile_img'] = body.profile_img
         persist_changes = True
 
-
+    current_profile = get_session_profile()
     if persist_changes:
         m_interface = MongoInterface()
-        m_interface.patch_profile(profile_id, set_values)
+        m_interface.patch_profile(current_profile.id, set_values)
 
     return get_session_profile()

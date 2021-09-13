@@ -3,7 +3,7 @@ from swagger_server.utilities.jwksutils import rsa_pem_from_jwk  # <-- this modu
 import time
 # obtain jwks as you wish: configuration file, HTTP GET request to the endpoint returning them;
 
-jwks_url = "https://rcaazdemo.b2clogin.com/rcaazdemo.onmicrosoft.com/b2c_1_bloggersignin/discovery/v2.0/keys"
+jwks_url = "https://rcaazdemo.b2clogin.com/rcaazdemo.onmicrosoft.com/discovery/v2.0/keys?p=b2c_1_susi"
 token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.eyJleHAiOjE2Mjk1NzQwODMsIm5iZiI6MTYyOTU3MDQ4MywidmVyIjoiMS4wIiwiaXNzIjoiaHR0cHM6Ly9yY2FhemRlbW8uYjJjbG9naW4uY29tLzYyYzgyZDliLTcyZmQtNDgwNS1iZmZmLTlhODQ4ZGUxNjc5Ni92Mi4wLyIsInN1YiI6ImE2OGU4NDU4LWNlZDEtNGI3NC05MjBjLWJkZmY2ZWEzYzcwMCIsImF1ZCI6IjkzNzVkYmEyLTRlNWYtNDM3Ny04NjNlLWIyMzFjNjA4ZWFkYSIsIm5vbmNlIjoiY2RmYjY4ZTEtMzJkMS00N2FiLTkxNGYtYTg5OGYzNzRlMDA0IiwiaWF0IjoxNjI5NTcwNDgzLCJhdXRoX3RpbWUiOjE2Mjk1NzA0ODMsIm9pZCI6ImE2OGU4NDU4LWNlZDEtNGI3NC05MjBjLWJkZmY2ZWEzYzcwMCIsIm5hbWUiOiJSaWNoIFVzZXIiLCJlbWFpbHMiOlsicmNhQHJpY2guY28iXSwidGZwIjoiQjJDXzFfQkxvZ2dlclNpZ25pbiJ9.UugiHqjOAQh3_1GsbQC8I3eYAGTXxUyiA_OL_c1XTwzMPXek8IAyHKDRL8O8vSeVhSDsYRfWmrUDfgfbFXKP2wlHPM_vHFSp7MYC8h6H2RaRKTNhK112-oz0z9i20vvKDqpIDXicBSginox3UIVE_OaKsbDxi8RqJkR89r2l8r249SOYJvofEINW6zSSxmJVts-S4gzWRatxCS-8V_SXS6iM-9WeAsaeShiox3ZM5Wz7Ku2txe-w24-ZXlXoaOMJSWJTlKxcf43iZmjNwYd_MSc4lyvK3FvaTFiRb-zJ6ocUdAV5FCr0rdTYNNuXlafUVBVStayTWRpbhB9i--8low"
 jwks = {
     "keys": [
@@ -57,9 +57,10 @@ def validate_jwt(jwt_to_validate):
 
     # do what you wish with decoded token:
     # if we get here, the JWT is validated
-    current_time = time.time()-5
+    # put in a little buffer on the nbf check.
+    current_time = time.time()+60
 
-    if current_time > decoded["nbf"]:
+    if current_time < decoded["nbf"]:
         raise "Token NBF is too early"
 
     print(decoded)

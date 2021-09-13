@@ -15,9 +15,9 @@ class MongoInterface:
             return
         return my_result
 
-    def get_profile_by_identity(self, identity_issuer, identity_id):
+    def get_profile_by_issuer_subject(self, issuer, subject):
         my_col = self.my_db["profile"]
-        my_result = my_col.find_one({"identity_issuer": identity_issuer, "identity_id": identity_id})
+        my_result = my_col.find_one({"identity_issuer": issuer, "identity_id": subject})
         return my_result
 
     def create_profile(self, profile_json):

@@ -5,45 +5,6 @@ info:
 servers:
 - url: http://localhost:8080/v1
 paths:
-  /authorize:
-    description: authorize based on identity token
-    post:
-      tags:
-      - authorize
-      summary: authorize a session for token
-      description: authorize based on a centralized token
-      operationId: authorize
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuthorizationRequest'
-        required: true
-      responses:
-        "200":
-          description: OK
-      x-openapi-router-controller: swagger_server.controllers.authorize_controller
-  /logout/:
-    description: log out of the API session
-    get:
-      tags:
-      - logout
-      summary: de-authorize a session for token
-      description: de-authorize a session for token
-      operationId: logout
-      parameters:
-      - name: apiToken
-        in: query
-        description: ID of profile to return
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      responses:
-        "200":
-          description: OK
-      x-openapi-router-controller: swagger_server.controllers.logout_controller
   /profile:
     description: add a profile
     get:
@@ -58,24 +19,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Profile'
-      security:
-      - BearerAuth: []
-      x-openapi-router-controller: swagger_server.controllers.profile_controller
-    post:
-      tags:
-      - profile
-      summary: create a profile
-      description: create a profile
-      operationId: add_profile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Profile'
-        required: true
-      responses:
-        "200":
-          description: OK
       security:
       - BearerAuth: []
       x-openapi-router-controller: swagger_server.controllers.profile_controller
@@ -426,26 +369,6 @@ components:
         connections:
         - connections
         - connections
-    AuthorizationRequest:
-      required:
-      - identity_token
-      type: object
-      properties:
-        identity_token:
-          type: string
-    ApiSession:
-      type: object
-      properties:
-        identity_token:
-          type: string
-        identity_issuer:
-          type: string
-        api_token:
-          type: string
-        api_token_expiration:
-          type: integer
-        user_profile:
-          type: string
     Project:
       type: object
       properties:

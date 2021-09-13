@@ -39,9 +39,10 @@ def add_project(body):  # noqa: E501
 
     :rtype: None
     """
-
+    auth = connexion.request.authorization
+    m_interface = MongoInterface()
     body = Project.from_dict(body)
-    body.profile_id=connexion.request.authorization["profile_id"]
+    body.profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
     if body.published is None:
         body.published = False
     if body.share_with is None:
@@ -50,7 +51,6 @@ def add_project(body):  # noqa: E501
     if body.photo_array is None:
         body.photo_array = []
 
-    m_interface = MongoInterface()
     response = m_interface.create_project(body.to_dict())
     return_project = Project.from_dict(response)
 
@@ -67,8 +67,9 @@ def delete_project(project_id):  # noqa: E501
 
     :rtype: None
     """
-    profile_id = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
+    auth = connexion.request.authorization
+    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
     project_to_delete = m_interface.get_project(project_id)
 
     if project_to_delete["profile_id"] != profile_id:
@@ -123,8 +124,9 @@ def get_session_projects():  # noqa: E501
 
     :rtype: List[Project]
     """
-    profile_id = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
+    auth = connexion.request.authorization
+    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
     res_count, results = m_interface.get_projects(profile_id)
     resp_list = list()
     for res in results:
@@ -135,8 +137,10 @@ def patch_project(body, project_id):  # noqa: E501
     """update attributes of a project
 
      # noqa: E501"""
-    profile_id = connexion.request.authorization["profile_id"]
     m_interface = MongoInterface()
+    auth = connexion.request.authorization
+    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
+
     project_to_patch = m_interface.get_project(project_id)
 
     if project_to_patch["profile_id"] != profile_id:
