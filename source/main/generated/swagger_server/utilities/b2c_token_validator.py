@@ -57,9 +57,10 @@ def validate_jwt(jwt_to_validate):
 
     # do what you wish with decoded token:
     # if we get here, the JWT is validated
-    current_time = time.time()-5
+    # put in a little buffer on the nbf check.
+    current_time = time.time()+60
 
-    if current_time > decoded["nbf"]:
+    if current_time < decoded["nbf"]:
         raise "Token NBF is too early"
 
     print(decoded)
