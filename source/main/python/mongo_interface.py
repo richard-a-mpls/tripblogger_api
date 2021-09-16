@@ -1,10 +1,8 @@
 import pymongo
+import os
 from bson.objectid import ObjectId
 
 class MongoInterface:
-
-    mongo_uri = "mongodb://mongo:27017/"
-    my_db = None
 
     def get_profile_by_id(self, profile_id):
         my_col = self.my_db["profile"]
@@ -29,7 +27,6 @@ class MongoInterface:
         return None
 
     def create_profile(self, profile_json):
-        print ("find from " + self.mongo_uri)
         my_col = self.my_db["profile"]
         id = my_col.insert_one(profile_json)
         cursor = my_col.find()
@@ -72,5 +69,5 @@ class MongoInterface:
         return my_col.find_one({ "_id": ObjectId(project_id)})
 
     def __init__(self):
-        myclient = pymongo.MongoClient("mongodb://mongo:27017/")
-        self.my_db = myclient["mydatabase"]
+        myclient = pymongo.MongoClient(os.environ.get("MONGO_URI"))
+        self.my_db = myclient["tripblogger"]
