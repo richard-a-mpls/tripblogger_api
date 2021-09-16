@@ -38,7 +38,6 @@ def add_project_photo(project_id, file_name=None):  # noqa: E501
     m_interface = MongoInterface()
     inserted_id = m_interface.create_photo(photo.to_dict())
     #TODO, define proper return object and refactor.
-    #return {'id': inserted_id}
     m_interface.append_project_photo(project_id, inserted_id)
 
     return {'id': inserted_id}
