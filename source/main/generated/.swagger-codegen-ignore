@@ -24,9 +24,7 @@
 **/authorize_controller.py
 **/authorization_controller.py
 **/__main__.py
-**/logout_controller.py
 **/profile_controller.py
 **/project_controller.py
 **/photo_controller.py
 **/project_photo_controller.py
-**/published_project_controller.py

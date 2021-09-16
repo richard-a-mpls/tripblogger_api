@@ -73,81 +73,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Profile"
 
-  /public/projects:
-    description: "published project related calls"
-    get:
-      tags:
-        - "published_project"
-      summary: "get published projects"
-      operationId: "getPublicProjects"
-      security:
-        - OptionalBearerAuth: [ ]
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/Project"
-  /connections/projects:
-    description: "published project related calls"
-    get:
-      tags:
-        - "published_project"
-      summary: "get published projects"
-      operationId: "getConnectionProjects"
-      security:
-        - BearerAuth: [ ]
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/Project"
-
-
-
-  /me/projects:
-    description: "project related calls"
-    post:
-      tags:
-        - "project"
-      summary: "create a project"
-      description: "create a project"
-      operationId: "addProject"
-      security:
-        - BearerAuth: [ ]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Project'
-      responses:
-        '200':
-          description: OK
-    get:
-      tags:
-        - "project"
-      summary: "get a project based on authorized session"
-      operationId: "getSessionProjects"
-      security:
-        - BearerAuth: [ ]
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/Project"
-
   /me/projects/{project_id}/photos:
     description: "add photos to a project"
     post:
@@ -178,54 +103,6 @@ paths:
         '200':
           description: OK
 
-  /me/projects/{project_id}:
-    description: "project operations for an individual session"
-    delete:
-      tags:
-        - "project"
-      summary: "delete a project by id"
-      description: "delete that project"
-      operationId: "deleteProject"
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: "project_id"
-          in: "path"
-          description: "ID of project to delete"
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-    patch:
-      tags:
-        - "project"
-      summary: "update attributes of a project"
-      operationId: "patchProject"
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: "project_id"
-          in: "path"
-          description: "ID of project to patch"
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Project'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Project"
-
   /projects/{project_id}/profile:
     description: "project public profile"
     get:
@@ -251,30 +128,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/PublicProfile"
 
-  /projects/{project_id}:
-    description: "project operations"
-    get:
-      tags:
-        - "project"
-      summary: "get a project by id"
-      description: "get that project"
-      operationId: "getProject"
-      security:
-        - BearerAuth: [ ]
-      parameters:
-        - name: "project_id"
-          in: "path"
-          description: "ID of project to return"
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Project"
   /photos/{photo_id}:
     description: "photo operations"
     get:
@@ -346,57 +199,6 @@ components:
           type: "array"
           items:
             type: "string"
-    Project:
-      type: object
-      properties:
-        _id:
-          type: "string"
-        profile_id:
-          type: "string"
-        summary:
-          type: "string"
-        description:
-          type: "string"
-        location:
-          type: "string"
-        published:
-          type: "boolean"
-        showcase_photo_id:
-          type: "string"
-        photo_array:
-          type: array
-          items:
-            type: "string"
-        datestmp:
-          type: "string"
-        share_with:
-          type: "string"
-          enum:
-            - "private"
-            - "public"
-            - "connections"
-        project_days:
-          type: array
-          items:
-            $ref: "#/components/schemas/ProjectDay"
-
-    ProjectDay:
-      type: object
-      properties:
-        id:
-          type: "string"
-        summary:
-          type: "string"
-        description:
-          type: "string"
-        location:
-          type: "string"
-        datestmp:
-          type: "string"
-        photos:
-          type: "array"
-          items:
-            type: "string"
 
     Photo:
       type: object
@@ -415,9 +217,6 @@ components:
 
   securitySchemes:
     BearerAuth:
-      type: http
-      scheme: bearer
-    OptionalBearerAuth:
       type: http
       scheme: bearer
 security:

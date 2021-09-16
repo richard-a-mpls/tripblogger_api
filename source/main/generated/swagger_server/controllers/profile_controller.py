@@ -1,5 +1,4 @@
 import connexion
-import six
 from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.profile import Profile  # noqa: E501
 
@@ -38,7 +37,7 @@ def get_profile(profile_id):  # noqa: E501
 def get_session_profile():  # noqa: E501
     m_interface = MongoInterface()
     auth = connexion.request.authorization
-    profile = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])
+    profile = m_interface.get_profile_by_subject(auth["sub"])
     if profile is None:
         profile_json = {
             "identity_id": auth["sub"],
@@ -46,7 +45,7 @@ def get_session_profile():  # noqa: E501
             "profile_name": auth["name"]
         }
         m_interface.create_profile(profile_json)
-        profile = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])
+        profile = m_interface.get_profile_by_subject(auth["sub"])
     return_profile = Profile.from_dict(profile)
     return return_profile
 
