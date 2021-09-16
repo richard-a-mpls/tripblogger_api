@@ -42,7 +42,7 @@ def add_project(body):  # noqa: E501
     auth = connexion.request.authorization
     m_interface = MongoInterface()
     body = Project.from_dict(body)
-    body.profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
+    body.profile_id = m_interface.get_profile_by_subject(auth["sub"])["_id"]
     if body.published is None:
         body.published = False
     if body.share_with is None:
@@ -69,7 +69,7 @@ def delete_project(project_id):  # noqa: E501
     """
     m_interface = MongoInterface()
     auth = connexion.request.authorization
-    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
+    profile_id = m_interface.get_profile_by_subject(auth["sub"])["_id"]
     project_to_delete = m_interface.get_project(project_id)
 
     if project_to_delete["profile_id"] != profile_id:
@@ -108,10 +108,8 @@ def get_project_profile(project_id):  # noqa: E501
     """
 
     m_interface = MongoInterface()
-
-    project = Project.from_dict(m_interface.get_project(project_id))
-    if project.published and project.share_with == "public":
-        results = m_interface.get_profile_by_id(project.profile_id)
+    results = m_interface.get_profile_by_public_project(project_id)
+    if results is not None:
         return PublicProfile.from_dict(results)
     return {"error": "unable to lookup owner"}
 
@@ -126,7 +124,7 @@ def get_session_projects():  # noqa: E501
     """
     m_interface = MongoInterface()
     auth = connexion.request.authorization
-    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
+    profile_id = m_interface.get_profile_by_subject(auth["sub"])["_id"]
     res_count, results = m_interface.get_projects(profile_id)
     resp_list = list()
     for res in results:
@@ -139,7 +137,7 @@ def patch_project(body, project_id):  # noqa: E501
      # noqa: E501"""
     m_interface = MongoInterface()
     auth = connexion.request.authorization
-    profile_id = m_interface.get_profile_by_issuer_subject(auth["iss"], auth["sub"])["_id"]
+    profile_id = m_interface.get_profile_by_subject(auth["sub"])["_id"]
 
     project_to_patch = m_interface.get_project(project_id)
 
