@@ -1,5 +1,4 @@
 import connexion
-import six
 from swagger_server.extensions.mongo_interface import MongoInterface
 from swagger_server.models.profile import Profile  # noqa: E501
 
