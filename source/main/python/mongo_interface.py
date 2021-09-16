@@ -15,10 +15,19 @@ class MongoInterface:
             return
         return my_result
 
-    def get_profile_by_issuer_subject(self, issuer, subject):
+    def get_profile_by_subject(self, subject):
         my_col = self.my_db["profile"]
-        my_result = my_col.find_one({"identity_issuer": issuer, "identity_id": subject})
+        my_result = my_col.find_one({"identity_id": subject})
         return my_result
+
+    def get_profile_by_public_project(self, project_id):
+        my_col = self.my_db["project"]
+        my_result = my_col.find_one({"_id": ObjectId(project_id)})
+        if my_result is not None and my_result["published"]:
+            my_col = self.my_db["profile"]
+            my_result = my_col.find_one({"identity_id": my_result["profileId"]})
+            return my_result
+        return None
 
     def create_profile(self, profile_json):
         print ("find from " + self.mongo_uri)
@@ -160,7 +169,7 @@ class MongoInterface:
         return my_list.count(), my_results
 
     def get_project(self, project_id):
-        my_col = self.my_db["projects"]
+        my_col = self.my_db["project"]
         return my_col.find_one({ "_id": ObjectId(project_id)})
 
     def patch_project(self, project_id, attributes_json):
@@ -173,8 +182,8 @@ class MongoInterface:
         return self.get_project(project_id)
 
     def append_project_photo(self, project_id, photo_id):
-        my_col = self.my_db["projects"]
-        my_col.update({"_id": ObjectId(project_id)}, {'$push': {'photo_array': photo_id}})
+        my_col = self.my_db["project"]
+        my_col.update({"_id": ObjectId(project_id)}, {'$push': {'photoArray': photo_id}})
 
     def __init__(self):
         myclient = pymongo.MongoClient("mongodb://mongo:27017/")
