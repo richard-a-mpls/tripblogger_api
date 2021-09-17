@@ -66,8 +66,16 @@ class MongoInterface:
 
     def get_project(self, project_id):
         my_col = self.my_db["project"]
-        return my_col.find_one({ "_id": ObjectId(project_id)})
+        print("Conn str")
+        print(os.environ.get("MONGO_URI"))
+        print ("find project by id of " + project_id)
+        project = my_col.find_one({ "_id": ObjectId(project_id)})
+        print ("project is ")
+        print (project)
+        projectList = my_col.find()
+        print (projectList)
+        return project
 
     def __init__(self):
         myclient = pymongo.MongoClient(os.environ.get("MONGO_URI"))
-        self.my_db = myclient["tripblogger"]
+        self.my_db = myclient[os.environ.get("MONGO_DATABASE")]
