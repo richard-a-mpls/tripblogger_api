@@ -1,4 +1,4 @@
-from swagger_server.extensions.mongo_interface import MongoInterface
+from swagger_server.mongo.mongo_interface import MongoInterface
 from swagger_server.models.public_profile import PublicProfile  # noqa: E501
 
 def get_project_profile(project_id):  # noqa: E501

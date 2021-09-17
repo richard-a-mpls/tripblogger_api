@@ -1,5 +1,5 @@
 import connexion
-from swagger_server.extensions.mongo_interface import MongoInterface
+from swagger_server.mongo.mongo_interface import MongoInterface
 from flask import send_file, request
 import io
 from swagger_server.utilities.file_transformation import FileTransformation

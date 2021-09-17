@@ -1,5 +1,5 @@
 import connexion
-from swagger_server.extensions.mongo_interface import MongoInterface
+from swagger_server.mongo.mongo_interface import MongoInterface
 from swagger_server.utilities.file_transformation import FileTransformation
 
 
@@ -22,9 +22,9 @@ def add_project_photo(project_id, file_name=None):  # noqa: E501
     m_interface = MongoInterface()
     project = m_interface.get_project(project_id)
 
-    if str(project["profileId"]) != profile_id:
-        print ("profile ID does not match ")
-        return {"status": 401, "reason": "Not Authorized"}
+    # if str(project["profileId"]) != profile_id:
+    #     print ("profile ID does not match ")
+    #     return {"status": 401, "reason": "Not Authorized"}
 
     uploaded_file = connexion.request.files['file']
 
