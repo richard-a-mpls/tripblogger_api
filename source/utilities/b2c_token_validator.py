@@ -49,7 +49,7 @@ def validate_jwt(jwt_to_validate):
     #time.sleep(1) # we seem to be 1 ms ahead of the iat and nbf timestamps
     decoded = jwt.decode(jwt_to_validate,
                          public_key,
-                         verify=True,
+                         #verify=True,
                          algorithms=['RS256'],
                          audience=valid_audiences,
                          issuer=issuer,
